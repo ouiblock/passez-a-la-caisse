@@ -197,16 +197,17 @@ function App() {
     content = <SourcesPage onBack={handleReturnHome} />;
   } else if (currentPage === 'succession') {
     content = (
-      <div className="min-h-screen bg-navy">
+      <div className="relative min-h-screen bg-navy">
         {/* Bouton retour accueil */}
         <button
           onClick={handleReturnHome}
-          className="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors border border-gray-600"
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 z-40 flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors border border-gray-600"
         >
           <Home className="w-5 h-5" />
           <span className="hidden sm:inline">Retour à l'accueil</span>
         </button>
 
+        <div className="px-4 pt-16 pb-8 sm:pt-20">
         {currentStep === 1 && (
           <Step1Role
             selectedRole={role}
@@ -254,6 +255,7 @@ function App() {
             onReset={handleReset}
           />
         )}
+        </div>
       </div>
     );
   } else {
@@ -261,7 +263,7 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-navy">
+    <div className="flex flex-col relative min-h-screen bg-navy">
       <BetaBanner />
       <div className="flex-1">
         {content}

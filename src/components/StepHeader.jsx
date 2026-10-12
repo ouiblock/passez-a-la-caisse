@@ -6,8 +6,8 @@ export function StepHeader({ step, title, subtitle }) {
           Étape {step}/4
         </span>
       </div>
-      <h2 className="text-4xl font-bold text-gold mb-3 drop-shadow-lg">{title}</h2>
-      {subtitle && <p className="text-gray-400 text-lg">{subtitle}</p>}
+      <h2 className="text-2xl sm:text-4xl font-bold text-gold mb-3 drop-shadow-lg">{title}</h2>
+      {subtitle && <p className="text-gray-400 text-base sm:text-lg">{subtitle}</p>}
     </div>
   );
 }

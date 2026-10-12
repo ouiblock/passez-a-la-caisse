@@ -54,9 +54,9 @@ export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900">
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 overflow-x-hidden">
       {/* Barre d'actions supérieure */}
-      <div className="fixed top-4 left-4 right-4 z-50 flex justify-between items-center pointer-events-none">
+      <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 z-40 flex justify-between items-center gap-2 pointer-events-none">
         <button
           onClick={onBack}
           className="pointer-events-auto flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors border border-gray-600 shadow-lg"
@@ -77,10 +77,10 @@ export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* En-tête */}
         <div className="text-center mb-8 mt-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3">
             Fiscalité sur une vie
           </h1>
-          <p className="text-xl text-gray-300">
+          <p className="text-base sm:text-xl text-gray-300">
             Calculez tous les impôts et taxes que vous paierez durant votre vie en France
           </p>
         </div>
@@ -94,7 +94,7 @@ export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
                 className={`flex items-center ${step < 4 ? 'flex-1' : ''}`}
               >
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
+                  className={`w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full flex items-center justify-center text-sm sm:text-base font-bold ${
                     step < currentStep
                       ? 'bg-green-600 text-white'
                       : step === currentStep
@@ -106,7 +106,7 @@ export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
                 </div>
                 {step < 4 && (
                   <div
-                    className={`flex-1 h-1 mx-2 ${
+                    className={`flex-1 h-1 mx-1 sm:mx-2 ${
                       step < currentStep ? 'bg-green-600' : 'bg-gray-700'
                     }`}
                   />
@@ -114,7 +114,7 @@ export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-sm text-gray-400">
+          <div className="flex justify-between gap-1 text-[10px] sm:text-sm text-gray-400 text-center">
             <span>Profil</span>
             <span>Revenus</span>
             <span>Conso</span>

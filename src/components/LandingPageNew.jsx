@@ -5,7 +5,7 @@ import { StatsCounter } from './StatsCounter';
 
 export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);  return (
-    <div className="min-h-screen bg-navy text-white font-sans">
+    <div className="min-h-screen bg-navy text-white font-sans overflow-x-hidden">
       {/* Subtle background pattern */}
       <div className="fixed inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
       
@@ -15,7 +15,7 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
         <header className="flex flex-col items-center text-center mb-16 animate-fade-up">
 
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
             Découvrez combien l'État vous prendra <br className="hidden md:block"/>
             <span className="text-gold-gradient">(vraiment)</span> au cours de votre vie.
           </h1>
@@ -100,7 +100,7 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
 
         {/* ── Pédagogie : La jungle fiscale ── */}
         <section className="mb-20 animate-fade-up-delay-2">
-          <h3 className="text-3xl font-bold text-center text-white mb-4">Comprendre la "jungle" fiscale</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold text-center text-white mb-4">Comprendre la "jungle" fiscale</h3>
           <p className="text-center text-slate-400 mb-10 max-w-2xl mx-auto text-lg">
             Le terme "impôt" est souvent utilisé à tort pour tout désigner. En réalité, le système se décline en 4 grandes familles de prélèvements obligatoires.
           </p>

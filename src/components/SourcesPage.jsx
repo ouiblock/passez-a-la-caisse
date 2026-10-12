@@ -170,11 +170,11 @@ export function SourcesPage({ onBack }) {
   ];
 
   return (
-    <div className="min-h-screen bg-navy text-white">
+    <div className="relative min-h-screen bg-navy text-white overflow-x-hidden">
       {/* Bouton retour accueil */}
       <button
         onClick={onBack}
-        className="fixed top-4 left-4 z-50 flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors border border-gray-655 cursor-pointer shadow-lg text-sm"
+        className="absolute top-3 left-3 sm:top-4 sm:left-4 z-40 flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors border border-gray-655 cursor-pointer shadow-lg text-sm"
       >
         <Home className="w-4 h-4 text-gold" />
         <span className="hidden sm:inline">Retour à l'accueil</span>
@@ -186,7 +186,7 @@ export function SourcesPage({ onBack }) {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold/25 border border-gold mb-4">
             <FileText className="w-8 h-8 text-gold" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
             Sources & Références
           </h1>
           <p className="text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
