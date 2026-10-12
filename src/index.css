@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════
+   Design System — Passez à la caisse
+   Palette: Navy, Gold, Slate
+   Font: Inter (Google Fonts)
+   ═══════════════════════════════════════════════════ */
+
+@theme {
+  --color-navy: #0A1628;
+  --color-navy-light: #122240;
+  --color-navy-lighter: #1A3058;
+  --color-gold: #B8955A;
+  --color-gold-light: #D4B47A;
+  --color-gold-dark: #96763E;
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    @apply bg-navy text-gray-100 antialiased;
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism card */
+  .glass {
+    background: rgba(18, 34, 64, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(184, 149, 90, 0.12);
+  }
+
+  .glass-light {
+    background: rgba(26, 48, 88, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Gold shimmer text */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #D4B47A 0%, #B8955A 40%, #D4B47A 60%, #96763E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Subtle glow effects */
+  .glow-gold {
+    box-shadow: 0 0 20px rgba(184, 149, 90, 0.15), 0 0 60px rgba(184, 149, 90, 0.05);
+  }
+
+  .glow-gold-strong {
+    box-shadow: 0 0 30px rgba(184, 149, 90, 0.25), 0 0 80px rgba(184, 149, 90, 0.1);
+  }
+
+  /* Smooth fade-in animation */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.6s ease-out both;
+  }
+
+  .animate-fade-up-delay-1 {
+    animation: fade-up 0.6s ease-out 0.1s both;
+  }
+
+  .animate-fade-up-delay-2 {
+    animation: fade-up 0.6s ease-out 0.2s both;
+  }
+
+  .animate-fade-up-delay-3 {
+    animation: fade-up 0.6s ease-out 0.3s both;
+  }
+
+  /* Fade-in from below (used by Jean-Luc Chat blocks) */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s ease-out both;
+  }
+}
