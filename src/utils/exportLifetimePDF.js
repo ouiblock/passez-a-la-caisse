@@ -138,7 +138,7 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
   setFont(doc, 36, GOLD, 'bold');
   doc.text(fmt(totalAvecSuccession), 105, 135, { align: 'center' });
   setFont(doc, 13, WHITE);
-  doc.text(`soit ${fmtPct(taux)} de votre richesse créée`, 105, 144, { align: 'center' });
+  doc.text(`soit ${fmtPct(taux)} de vos revenus nets cumulés`, 105, 144, { align: 'center' });
 
   // Ligne dorée
   doc.setDrawColor(...GOLD);
@@ -345,7 +345,7 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
 
   // Sous-totaux
   const sousTotaux = [
-    ['Richesse totale créée (revenus nets avant IR)', fmt(resultats.richesseTotaleCreee || 0), ''],
+    ['Total des revenus nets cumulés sur votre vie', fmt(resultats.richesseTotaleCreee || 0), ''],
     ['dont salaires nets de carrière', fmt(resultats.detailRichesse?.revenusSalariauxNets || 0), ''],
     ['dont pensions de retraite nettes', fmt(resultats.detailRichesse?.revenusRetraiteNets || 0), ''],
   ];

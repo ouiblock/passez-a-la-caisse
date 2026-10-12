@@ -107,11 +107,11 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
         </div>
       </div>
 
-      {/* Richesse totale créée */}
+      {/* Total des revenus nets cumulés sur votre vie */}
       <Card className="p-5 sm:p-8 bg-gradient-to-br from-green-900/30 to-emerald-900/30 border-2 border-green-600">
         <div className="text-center">
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
-            💰 Richesse totale créée (revenus nets avant impôts)
+            💼 Total des revenus nets cumulés sur votre vie
           </h2>
           <div className="text-3xl sm:text-5xl md:text-6xl font-bold text-green-400 mb-4 break-words">
             {formatEuro(resultats.richesseTotaleCreee || 0)}
@@ -159,7 +159,7 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
             {formatEuro(totalAvecSuccession)}
           </div>
           <div className="text-lg sm:text-xl text-green-400 mb-2">
-            Soit {((totalAvecSuccession / (resultats.richesseTotaleCreee || 1)) * 100).toFixed(1)}% de votre richesse créée
+            Soit {((totalAvecSuccession / (resultats.richesseTotaleCreee || 1)) * 100).toFixed(1)}% de vos revenus nets cumulés
           </div>
           {successionEstimation.droitsTotal > 0 && (
             <div className="text-sm text-gray-400 mb-2">
