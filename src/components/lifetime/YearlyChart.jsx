@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from '../ui/Card';
 import { PieChart, BarChart3 } from 'lucide-react';
 import { detailImpotParAnnee } from '../../utils/lifetime/adapters/impotRevenu';
+import { detailCotisationsParAnnee } from '../../utils/lifetime/adapters/cotisations';
 
 export function YearlyChart({ profil, resultats }) {
   const [selectedPeriod, setSelectedPeriod] = useState('all'); // 'all', 'active', 'retraite'
@@ -22,29 +23,26 @@ export function YearlyChart({ profil, resultats }) {
     const ageFin = profil.esperanceVie;
     const duree = Math.max(1, ageFin - ageDebut);
     const irDetails = detailImpotParAnnee(profil);
-    
-    // Calculer le total en ne prenant que les valeurs numériques
-    const total = resultats.total || 0;
+    const cotDetails = detailCotisationsParAnnee(profil);
     
     const data = [];
-    const croissance = 1 + (profil.croissanceRevenuPct / 100);
     
     for (let i = 0; i < duree; i++) {
       const age = ageDebut + i;
       const phase = age < profil.retraiteAge ? 'active' : 'retraite';
-      const facteurEvolution = Math.pow(croissance, Math.min(i, profil.retraiteAge - ageDebut));
       
       // Estimation par catégorie
       const dureeCarriere = Math.max(1, profil.retraiteAge - ageDebut);
       const dureeRetraite = Math.max(1, ageFin - profil.retraiteAge);
       const irAnnee = irDetails.find(d => d.age === age)?.impot ?? ((resultats.impotRevenu || 0) / duree);
+      const cotAnnee = cotDetails.find(d => d.age === age);
       
       const annee = {
         age,
         phase,
-        tvaConso: (resultats.tvaConso || 0) / duree * facteurEvolution,
-        cotSalariales: phase === 'active' && dureeCarriere > 0 ? (resultats.cotSalariales || 0) / dureeCarriere * facteurEvolution : 0,
-        cotPatronales: phase === 'active' && dureeCarriere > 0 ? (resultats.cotPatronales || 0) / dureeCarriere * facteurEvolution : 0,
+        tvaConso: (resultats.tvaConso || 0) / duree,
+        cotSalariales: phase === 'active' && cotAnnee ? cotAnnee.salariales : (phase === 'active' ? (resultats.cotSalariales || 0) / dureeCarriere : 0),
+        cotPatronales: phase === 'active' && cotAnnee ? cotAnnee.patronales : (phase === 'active' ? (resultats.cotPatronales || 0) / dureeCarriere : 0),
         impotRevenu: irAnnee,
         flatTaxPlacements: (resultats.flatTaxPlacements || 0) / duree,
         taxesEnergie: ((resultats.energieCarburant || 0) + (resultats.energieElectricite || 0) + (resultats.energieGaz || 0)) / duree,

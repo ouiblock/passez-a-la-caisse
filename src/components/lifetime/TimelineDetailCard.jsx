@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronDown, ChevronUp, Calendar } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { detailImpotParAnnee } from '../../utils/lifetime/adapters/impotRevenu';
+import { detailCotisationsParAnnee } from '../../utils/lifetime/adapters/cotisations';
 
 export function TimelineDetailCard({ profil, resultats }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -18,24 +19,26 @@ export function TimelineDetailCard({ profil, resultats }) {
   // Générer timeline détaillée
   const generateDetailedTimeline = () => {
     const timeline = [];
-    const ageDebut = Math.max(profil.age, 18);
+    const ageDebut = profil.ageDebutCarriere || 22;
     const ageFin = profil.esperanceVie;
     const irDetails = detailImpotParAnnee(profil);
+    const cotDetails = detailCotisationsParAnnee(profil);
     
     for (let age = ageDebut; age <= ageFin; age++) {
       const annee = age - ageDebut + 1;
       const phase = age < profil.retraiteAge ? 'active' : 'retraite';
       
-      // Calculs simplifiés par année (avec impôt sur le revenu réel par année)
+      // Calculs par année (avec IR et cotisations réels par année)
       const dureeTotal = Math.max(1, ageFin - ageDebut + 1);
       const dureeActive = Math.max(1, profil.retraiteAge - ageDebut);
       const dureeRetraite = Math.max(1, ageFin - profil.retraiteAge + 1);
       const irAnnee = irDetails.find(item => item.age === age)?.impot ?? Math.round(resultats.impotRevenu / dureeTotal);
+      const cotItem = cotDetails.find(item => item.age === age);
       
       const taxes = {
         tvaConso: Math.round(resultats.tvaConso / dureeTotal),
-        cotSalariales: phase === 'active' ? Math.round(resultats.cotSalariales / dureeActive) : 0,
-        cotPatronales: phase === 'active' ? Math.round(resultats.cotPatronales / dureeActive) : 0,
+        cotSalariales: phase === 'active' && cotItem ? cotItem.salariales : (phase === 'active' ? Math.round(resultats.cotSalariales / dureeActive) : 0),
+        cotPatronales: phase === 'active' && cotItem ? cotItem.patronales : (phase === 'active' ? Math.round(resultats.cotPatronales / dureeActive) : 0),
         impotRevenu: irAnnee,
         energieCarburant: Math.round(resultats.energieCarburant / dureeTotal),
         energieElectricite: Math.round(resultats.energieElectricite / dureeTotal),
@@ -132,9 +135,14 @@ export function TimelineDetailCard({ profil, resultats }) {
                     className="p-3 bg-gray-900 rounded-lg border border-gray-700"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                         <span className="text-white font-medium">Année {year.annee}</span>
                         <span className="text-sm text-gray-400">({year.age} ans)</span>
+                        {year.age === profil.age && (
+                          <span className="text-xs px-2 py-0.5 rounded bg-gold/20 text-gold border border-gold/40 font-semibold">
+                            📍 Âge actuel
+                          </span>
+                        )}
                         <span className={`text-xs px-2 py-1 rounded ${
                           year.phase === 'active' 
                             ? 'bg-blue-900 text-blue-300' 

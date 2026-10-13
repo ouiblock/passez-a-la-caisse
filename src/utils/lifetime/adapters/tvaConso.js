@@ -15,8 +15,8 @@ export function estimateTVAConso(profil) {
   const mensuel = profil.consoMensuelle ?? 1800;
   const annuel = mensuel * 12;
   
-  // Durée de vie consommation (de l'âge actuel à l'espérance de vie)
-  const ageDebut = Math.max(profil.age, 18);
+  // Durée de vie consommation (du début de vie active à l'espérance de vie)
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   // Taux effectif moyen (panier mixte 20%, 10%, 5.5%)
@@ -42,13 +42,14 @@ export function detailTVAParAnnee(profil) {
   const partTVA = tauxEffectif / (1 + tauxEffectif);
   const tvaAnnuelle = annuel * partTVA;
   
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const ageFin = profil.esperanceVie;
   
   const timeline = [];
   for (let age = ageDebut; age <= ageFin; age++) {
     timeline.push({
-      annee: age,
+      annee: age - ageDebut + 1,
+      age,
       tva: Math.round(tvaAnnuelle)
     });
   }

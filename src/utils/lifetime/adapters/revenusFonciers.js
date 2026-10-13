@@ -17,8 +17,8 @@ export function estimateFiscaliteRevenusFonciers(profil) {
   // Fiscalité annuelle moyenne
   const fiscaliteAnnuelle = revenusFonciersAnnuels * REVENUS_FONCIERS.tauxFiscaliteMoyen;
   
-  // Durée de perception (de l'âge actuel à l'espérance de vie)
-  const ageDebut = profil.age;
+  // Durée de perception (du début de vie active à l'espérance de vie)
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   return Math.round(fiscaliteAnnuelle * duree);
@@ -34,7 +34,7 @@ export function calculateTotalRevenusFonciers(profil) {
   
   if (revenusFonciersAnnuels === 0) return 0;
   
-  const ageDebut = profil.age;
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   return Math.round(revenusFonciersAnnuels * duree);
@@ -50,7 +50,7 @@ export function detailRevenusFonciersParAnnee(profil) {
   
   if (revenusFonciersAnnuels === 0) return [];
   
-  const ageDebut = profil.age;
+  const ageDebut = profil.ageDebutCarriere || 22;
   const ageFin = profil.esperanceVie;
   const fiscaliteAnnuelle = revenusFonciersAnnuels * REVENUS_FONCIERS.tauxFiscaliteMoyen;
   

@@ -4,7 +4,7 @@
  */
 
 import { estimateTVAConso } from './adapters/tvaConso.js';
-import { estimateCotisationsSalariales, estimateCotisationsPatronales } from './adapters/cotisations.js';
+import { estimateCotisationsSalariales, estimateCotisationsPatronales, detailCotisationsParAnnee } from './adapters/cotisations.js';
 import { estimateImpotRevenu, detailImpotParAnnee } from './adapters/impotRevenu.js';
 import { calculateFlatTax, calculateIFI, calculateInteretsCredits } from './adapters/placementsEtPatrimoine.js';
 import { estimateFiscaliteRevenusFonciers, calculateTotalRevenusFonciers } from './adapters/revenusFonciers.js';
@@ -17,7 +17,7 @@ import { TAXES_ENERGIE, CONSO_CARBURANT, LOGEMENT, RETRAITE, MOYENNES_INSEE, COT
  */
 function calculateTaxesCarburant(profil) {
   let totalTaxes = 0;
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   // Calculer pour la personne principale
@@ -73,7 +73,7 @@ function calculateTaxesElectricite(profil) {
   const partTaxes = TAXES_ENERGIE.electricite.partTaxes;
   const taxesAnnuelles = depenseAnnuelle * partTaxes;
   
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   return Math.round(taxesAnnuelles * duree);
@@ -89,7 +89,7 @@ function calculateTaxesGaz(profil) {
   const partTaxes = TAXES_ENERGIE.gaz.partTaxes;
   const taxesAnnuelles = depenseAnnuelle * partTaxes;
   
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   return Math.round(taxesAnnuelles * duree);
@@ -124,7 +124,7 @@ function calculateFraisNotaire(profil) {
 function calculateTaxeFonciere(profil) {
   if (!profil.logement.rpAchat && !profil.logement.rsAchat) return 0;
   
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   // Hypothèse : taxe foncière moyenne avec évolution 2%/an
@@ -155,17 +155,22 @@ function calculatePrelevementsRetraite(profil) {
   const ageDebut = profil.ageDebutCarriere || 22;
   const dureeCarriere = Math.max(0, profil.retraiteAge - ageDebut);
   const croissance = 1 + (profil.croissanceRevenuPct / 100);
-  const dernierSalaire = netAnnuel * Math.pow(croissance, dureeCarriere - 1);
   
   // Pension selon le statut
-  const tauxRemplacement = RETRAITE.tauxRemplacementParStatut[profil.statut] || RETRAITE.tauxRemplacement;
-  const pensionAnnuelle = dernierSalaire * tauxRemplacement;
+  let pensionAnnuelle;
+  if (profil.statut === 'retraite') {
+    pensionAnnuelle = netAnnuel;
+  } else {
+    const dernierSalaire = netAnnuel * Math.pow(croissance, Math.max(0, dureeCarriere - 1));
+    const tauxRemplacement = RETRAITE.tauxRemplacementParStatut[profil.statut] || RETRAITE.tauxRemplacement;
+    pensionAnnuelle = dernierSalaire * tauxRemplacement;
+  }
   
   // Prélèvements sociaux
   const prelevementsAnnuels = pensionAnnuelle * RETRAITE.prelevementsSociaux.total;
   
   // Durée retraite
-  const dureeRetraite = profil.esperanceVie - profil.retraiteAge;
+  const dureeRetraite = Math.max(0, profil.esperanceVie - profil.retraiteAge);
   
   return Math.round(prelevementsAnnuels * dureeRetraite);
 }
@@ -217,22 +222,32 @@ export function estimateLifetimeTaxes(profil) {
   
   // Revenus salariaux NET sur la carrière (ce qui est réellement perçu avant IR)
   let revenusSalariauxNets = 0;
-  for (let annee = 0; annee < dureeCarriere; annee++) {
-    const facteurEvolution = Math.pow(croissance, annee);
-    revenusSalariauxNets += netMensuel * 12 * facteurEvolution;
+  if (profil.statut === 'retraite') {
+    const netMensuelCarriere = profil.salaireMoyenCarriere || MOYENNES_INSEE.revenuNetMensuel.salarie;
+    revenusSalariauxNets = netMensuelCarriere * 12 * dureeCarriere;
+  } else {
+    for (let annee = 0; annee < dureeCarriere; annee++) {
+      const facteurEvolution = Math.pow(croissance, annee);
+      revenusSalariauxNets += netMensuel * 12 * facteurEvolution;
+    }
   }
   
   // Pension retraite nette (selon le statut)
   const dureeRetraite = Math.max(0, profil.esperanceVie - profil.retraiteAge);
-  const dernierSalaire = netMensuel * 12 * Math.pow(croissance, dureeCarriere - 1);
-  const tauxRemplacement = RETRAITE.tauxRemplacementParStatut[profil.statut] || RETRAITE.tauxRemplacement;
-  const pensionAnnuelle = dernierSalaire * tauxRemplacement;
+  let pensionAnnuelle;
+  if (profil.statut === 'retraite') {
+    pensionAnnuelle = (profil.revenuNetMensuel ?? MOYENNES_INSEE.revenuNetMensuel.retraite) * 12;
+  } else {
+    const dernierSalaire = netMensuel * 12 * Math.pow(croissance, Math.max(0, dureeCarriere - 1));
+    const tauxRemplacement = RETRAITE.tauxRemplacementParStatut[profil.statut] || RETRAITE.tauxRemplacement;
+    pensionAnnuelle = dernierSalaire * tauxRemplacement;
+  }
   const revenusRetraiteNets = pensionAnnuelle * dureeRetraite;
   
   // Revenus placements bruts
   const capitalTotal = profil.placements?.capitalTotal || 0;
   const rendementPct = profil.placements?.rendementPct || 0;
-  const dureeVie = Math.max(0, profil.esperanceVie - profil.age);
+  const dureeVie = Math.max(0, profil.esperanceVie - ageDebut);
   const revenusPlacementsBruts = (capitalTotal * rendementPct / 100) * dureeVie;
   
   // Revenus fonciers bruts
@@ -294,10 +309,13 @@ export function estimateLifetimeTaxes(profil) {
  * @returns {Array} Timeline
  */
 function generateTimeline(profil, totaux) {
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const ageFin = profil.esperanceVie;
   const duree = Math.max(1, ageFin - ageDebut);
   const irDetails = detailImpotParAnnee(profil);
+  const cotDetails = detailCotisationsParAnnee(profil);
+  const dureeCarriere = Math.max(1, profil.retraiteAge - ageDebut);
+  const dureeRetraite = Math.max(1, ageFin - profil.retraiteAge);
   
   const timeline = [];
   let cumulTotal = 0;
@@ -305,18 +323,19 @@ function generateTimeline(profil, totaux) {
   for (let age = ageDebut; age <= ageFin; age++) {
     const annee = age - ageDebut + 1;
     const irAnnee = irDetails.find(item => item.age === age)?.impot ?? Math.round(totaux.impotRevenu / duree);
+    const cotItem = cotDetails.find(item => item.age === age);
     
     // Répartition annuelle
     const taxesAnnee = {
       tvaConso: Math.round(totaux.tvaConso / duree),
-      cotSalariales: age < profil.retraiteAge ? Math.round(totaux.cotSalariales / Math.max(1, profil.retraiteAge - ageDebut)) : 0,
-      cotPatronales: age < profil.retraiteAge ? Math.round(totaux.cotPatronales / Math.max(1, profil.retraiteAge - ageDebut)) : 0,
+      cotSalariales: age < profil.retraiteAge && cotItem ? cotItem.salariales : (age < profil.retraiteAge ? Math.round(totaux.cotSalariales / dureeCarriere) : 0),
+      cotPatronales: age < profil.retraiteAge && cotItem ? cotItem.patronales : (age < profil.retraiteAge ? Math.round(totaux.cotPatronales / dureeCarriere) : 0),
       impotRevenu: irAnnee,
       energieCarburant: Math.round(totaux.energieCarburant / duree),
       energieElectricite: Math.round(totaux.energieElectricite / duree),
       energieGaz: Math.round(totaux.energieGaz / duree),
       taxeFonciere: Math.round(totaux.taxeFonciere / duree),
-      retraitesPrelevSociaux: age >= profil.retraiteAge ? Math.round(totaux.retraitesPrelevSociaux / Math.max(1, ageFin - profil.retraiteAge)) : 0
+      retraitesPrelevSociaux: age >= profil.retraiteAge ? Math.round(totaux.retraitesPrelevSociaux / dureeRetraite) : 0
     };
     
     const totalAnnee = Object.values(taxesAnnee).reduce((sum, val) => sum + val, 0);

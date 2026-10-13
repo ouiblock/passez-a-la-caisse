@@ -14,7 +14,7 @@ export function calculateFlatTax(profil) {
   if (!profil.placements) return 0;
   
   const rendementPct = (profil.placements.rendementPct || 3) / 100;
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   let fiscaliteTotale = 0;
@@ -93,7 +93,7 @@ export function calculateIFI(profil) {
   }
   
   // Durée de vie
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const duree = Math.max(0, profil.esperanceVie - ageDebut);
   
   // Total sur la vie (hypothèse : patrimoine constant)
@@ -134,7 +134,7 @@ export function detailFlatTaxParAnnee(profil) {
   const revenusAnnuels = capitalTotal * rendementPct;
   const flatTaxAnnuelle = revenusAnnuels * FLAT_TAX.taux;
   
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const ageFin = profil.esperanceVie;
   
   const timeline = [];
@@ -182,7 +182,7 @@ export function detailIFIParAnnee(profil) {
     }
   }
   
-  const ageDebut = Math.max(profil.age, 18);
+  const ageDebut = profil.ageDebutCarriere || 22;
   const ageFin = profil.esperanceVie;
   
   const timeline = [];
