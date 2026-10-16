@@ -383,7 +383,7 @@ export function StatsCounter() {
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-gold to-gold-light text-navy font-extrabold rounded-xl hover:scale-105 transition-all duration-300 shadow-xl cursor-pointer hover:shadow-gold/10 text-sm tracking-wide"
             >
-              [ Calculer mon total sur toute une vie ]
+              Calculer mon total sur toute une vie
             </button>
           </div>
 

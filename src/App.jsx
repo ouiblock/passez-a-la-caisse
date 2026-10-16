@@ -9,6 +9,7 @@ import { Step2Beneficiaires } from './components/Step2Beneficiaires';
 import { Step3Amounts } from './components/Step3Amounts';
 import { Step4Results } from './components/Step4Results';
 import { CguModal } from './components/CguModal';
+import { ChatJeanLuc } from './components/ChatJeanLuc';
 
 function CookieBanner() {
   const [visible, setVisible] = useState(() => {
@@ -152,7 +153,14 @@ function App() {
 
   // Navigation vers pédagogie
   const handleGoToPedagogie = () => {
+    try {
+      localStorage.setItem('disclaimerAccepted', 'true');
+    } catch (e) {
+      console.warn('localStorage non disponible:', e);
+    }
+    setDisclaimerAccepted(true);
     setCurrentPage('pedagogie');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Reset calculateur succession
@@ -187,14 +195,14 @@ function App() {
   // Détermination du contenu de la page active
   let content;
 
-  if (!disclaimerAccepted || currentPage === 'landing') {
-    content = <LandingPageNew onSelectCalculator={handleSelectCalculator} onOpenCgu={() => setIsCguOpen(true)} />;
-  } else if (currentPage === 'lifetime') {
-    content = <LifetimeCalculator onBack={handleReturnHome} onGoToPedagogie={handleGoToPedagogie} />;
-  } else if (currentPage === 'pedagogie') {
+  if (currentPage === 'pedagogie') {
     content = <PedagogiePage onBack={handleReturnHome} />;
   } else if (currentPage === 'sources') {
     content = <SourcesPage onBack={handleReturnHome} />;
+  } else if (!disclaimerAccepted || currentPage === 'landing') {
+    content = <LandingPageNew onSelectCalculator={handleSelectCalculator} onOpenCgu={() => setIsCguOpen(true)} />;
+  } else if (currentPage === 'lifetime') {
+    content = <LifetimeCalculator onBack={handleReturnHome} onGoToPedagogie={handleGoToPedagogie} />;
   } else if (currentPage === 'succession') {
     content = (
       <div className="relative min-h-screen bg-navy">
@@ -268,6 +276,7 @@ function App() {
       <div className="flex-1">
         {content}
       </div>
+      <ChatJeanLuc onGoToPedagogie={handleGoToPedagogie} />
       <CookieBanner />
       <CguModal isOpen={isCguOpen} onClose={() => setIsCguOpen(false)} />
     </div>
