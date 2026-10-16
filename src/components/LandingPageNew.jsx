@@ -81,9 +81,9 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
             <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-navy-light p-2 max-w-3xl w-full">
               <div className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-transparent z-10" />
               <img 
-                src="/images/bercy-caisse-photo.jpg" 
-                alt="Illustration - Addition salée DGFIP" 
-                className="w-full h-auto object-cover rounded-xl opacity-90"
+                src="/images/social_preview.jpg" 
+                alt="Aperçu Passez à la caisse — M. Jean-Luc Chat Inspecteur DGFIP" 
+                className="w-full h-auto object-cover rounded-xl opacity-95 shadow-lg"
               />
               <div className="absolute bottom-6 left-0 right-0 z-20 flex justify-center">
                  <Button
