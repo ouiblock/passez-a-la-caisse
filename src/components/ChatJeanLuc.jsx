@@ -119,6 +119,13 @@ export function ChatJeanLuc({ onGoToPedagogie }) {
       question: "Mes données financières sont-elles transmises à Bercy ?",
       icon: "🔒",
       answer: "Même moi, malgré mon ancien badge d'Inspecteur Principal, je n'y ai pas accès ! Vos calculs s'effectuent à 100% localement dans votre propre navigateur. Aucun serveur central, zéro compte utilisateur, aucun cookie publicitaire. Vous êtes totalement anonyme et souverain."
+    },
+    {
+      id: 'contact',
+      category: 'Contact',
+      question: "Comment vous contacter ou signaler une remarque ?",
+      icon: "✉️",
+      answer: "Une question spécifique, une suggestion d'amélioration ou un mot doux pour l'équipe ? Vous pouvez nous écrire directement par courriel à unbilletpourbercy@proton.me — nous lisons et répondons à chaque message citoyen !"
     }
   ];
 
@@ -268,6 +275,16 @@ export function ChatJeanLuc({ onGoToPedagogie }) {
                     <p className="text-slate-200 text-xs leading-relaxed mb-3">
                       {selectedFaq.answer}
                     </p>
+                    {selectedFaq.id === 'contact' && (
+                      <div className="mb-3">
+                        <a
+                          href="mailto:unbilletpourbercy@proton.me"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold text-navy font-bold rounded-lg text-xs hover:bg-gold-light transition-all shadow-md"
+                        >
+                          ✉️ Écrire à unbilletpourbercy@proton.me
+                        </a>
+                      </div>
+                    )}
                     <button
                       onClick={handleResetFaq}
                       className="inline-flex items-center gap-1.5 text-[11px] font-bold text-gold hover:text-gold-light hover:underline cursor-pointer"

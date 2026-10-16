@@ -155,8 +155,11 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">
             Total des impôts et taxes sur votre vie
           </h2>
-          <div className="text-4xl sm:text-6xl md:text-7xl font-bold text-gold mb-4 break-words">
+          <div className="text-4xl sm:text-6xl md:text-7xl font-bold text-gold mb-3 break-words">
             {formatEuro(totalAvecSuccession)}
+          </div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs sm:text-sm font-semibold mb-3">
+            <span>👇</span> Voir le détail poste par poste et année par année plus bas
           </div>
           <div className="text-lg sm:text-xl text-green-400 mb-2">
             Soit {((totalAvecSuccession / (resultats.richesseTotaleCreee || 1)) * 100).toFixed(1)}% de vos revenus nets cumulés

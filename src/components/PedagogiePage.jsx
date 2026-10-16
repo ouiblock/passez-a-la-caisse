@@ -126,6 +126,10 @@ export function PedagogiePage({ onBack }) {
     {
       q: "Quelle est votre politique sur les cookies ?",
       a: "Nous appliquons une politique stricte de 'cookies minimum vital'. Le site ne dépose aucun cookie publicitaire, tracker ou outil analytique tiers. Nous utilisons uniquement la mémoire locale de votre navigateur (localStorage) pour des fonctions techniques indispensables : mémoriser votre acceptation des conditions de l'outil et conserver le calculateur choisi d'une visite à l'autre."
+    },
+    {
+      q: "Comment contacter l'équipe du projet ?",
+      a: "Vous pouvez nous adresser vos questions, suggestions ou signalements par courriel à l'adresse : unbilletpourbercy@proton.me. Nous répondons avec plaisir à toutes les contributions citoyennes."
     }
   ];
 
