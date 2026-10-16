@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Home } from 'lucide-react';
 import { Step1Profile } from './Step1Profile';
 import { Step2Income } from './Step2Income';
@@ -10,6 +10,13 @@ import { DEFAULT_PROFIL } from '../../types/tax';
 export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [profil, setProfil] = useState(DEFAULT_PROFIL);
+
+  // Remonter tout en haut à chaque changement d'étape (mobile & desktop)
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [currentStep]);
 
   const handleStep1Complete = (data) => {
     setProfil({ ...profil, ...data });
