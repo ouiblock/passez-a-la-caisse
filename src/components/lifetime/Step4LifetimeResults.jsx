@@ -192,6 +192,54 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
         </div>
       </Card>
 
+      {/* ── Call To Action Majeur : Téléchargement du Bilan PDF ── */}
+      <div className="relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-r from-navy-light via-navy to-navy-light border-2 border-gold/40 shadow-[0_15px_40px_rgba(184,149,90,0.15)] animate-fade-up">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-start gap-4 text-center md:text-left">
+            <div className="w-14 h-14 rounded-2xl bg-gold/15 border border-gold/30 flex items-center justify-center flex-shrink-0 mx-auto md:mx-0 shadow-lg">
+              <Download className="w-7 h-7 text-gold animate-bounce" />
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-1.5">
+                <span>📄</span> Bilan Fiscal Personnel Certifié
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-white">
+                Téléchargez votre Bilan Complet en PDF
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl leading-relaxed">
+                Gardez une trace confidentielle de tous vos chiffres : récapitulatif détaillé par poste, tableau année par année, droits de succession et références législatives.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex-shrink-0 w-full md:w-auto">
+            <Button
+              variant="primary"
+              size="xl"
+              onClick={handleExportPDF}
+              disabled={pdfLoading}
+              className="w-full md:w-auto text-base sm:text-lg font-black px-8 py-4 shadow-[0_0_30px_rgba(184,149,90,0.4)] hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center gap-3"
+            >
+              {pdfLoading ? (
+                <>
+                  <Loader2 className="w-6 h-6 animate-spin text-navy" />
+                  <span>Génération du document...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-6 h-6 text-navy" />
+                  <span>Générer mon rapport PDF gratuit</span>
+                </>
+              )}
+            </Button>
+            <p className="text-[11px] text-center text-slate-400 mt-2">
+              🔒 100% anonyme • Généré instantanément dans votre navigateur
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Répartition par catégorie */}
       <Card className="p-5 sm:p-8">
         <div className="flex items-center justify-between mb-6">
@@ -409,16 +457,16 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
           ← Modifier les paramètres
         </Button>
         <Button
-          variant="secondary"
+          variant="primary"
           size="lg"
           onClick={handleExportPDF}
           disabled={pdfLoading}
-          className="flex-1"
+          className="flex-1 shadow-lg shadow-gold/10 font-bold"
         >
           {pdfLoading ? (
             <><Loader2 className="w-5 h-5 mr-2 animate-spin" />Génération...</>
           ) : (
-            <><Download className="w-5 h-5 mr-2" />Exporter en PDF</>
+            <><Download className="w-5 h-5 mr-2" />Télécharger le Bilan PDF</>
           )}
         </Button>
         <Button

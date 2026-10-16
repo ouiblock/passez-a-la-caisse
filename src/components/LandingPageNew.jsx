@@ -15,13 +15,31 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
         <header className="flex flex-col items-center text-center mb-16 animate-fade-up">
 
 
+          {/* Badge Mascotte Jean-Luc Chat */}
+          <div className="inline-flex items-center gap-3 p-1.5 pr-4 bg-navy-light/70 border border-gold/30 rounded-full mb-6 backdrop-blur-sm shadow-lg hover:border-gold/60 transition-all">
+            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold flex-shrink-0">
+              <img 
+                src="/images/jean-luc-chat.jpg" 
+                alt="M. Jean-Luc Chat - DGFIP" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="text-left text-xs">
+              <span className="text-gold font-bold">M. Jean-Luc Chat</span>
+              <span className="text-slate-400 hidden sm:inline"> • Inspecteur DGFIP retraité</span>
+            </div>
+            <span className="ml-1 text-[10px] px-2 py-0.5 rounded-full bg-gold/15 text-gold font-semibold uppercase tracking-wider">
+              Enquête citoyenne
+            </span>
+          </div>
+
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
             Découvrez combien l'État vous prendra <br className="hidden md:block"/>
             <span className="text-gold-gradient">(vraiment)</span> au cours de votre vie.
           </h1>
           
           <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Le simulateur fiscal gratuit et 100% anonyme qui vous dit la vérité sur vos prélèvements obligatoires : TVA, cotisations, IR, taxes locales, et droits de succession.
+            Sous l'œil avisé de <strong className="text-white">M. Jean-Luc Chat</strong>, le simulateur fiscal gratuit et 100% anonyme qui vous dit la vérité sur vos prélèvements obligatoires : TVA, cotisations, IR, taxes locales, et droits de succession.
           </p>
 
           <div className="flex flex-col items-center justify-center gap-6 mb-6">
@@ -132,6 +150,51 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
                 Liés à la transmission d'un patrimoine, d'un acte juridique ou au passage d'une frontière.
                 <br/><span className="text-slate-400 text-xs mt-2 block">(Ex: Droits de succession, frais de notaire, droits de douane)</span>
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Mascotte & Enquêteur : M. Jean-Luc Chat ── */}
+        <section className="mb-20 animate-fade-up-delay-2">
+          <div className="bg-gradient-to-r from-navy-light/80 via-navy/90 to-navy-light/80 border border-gold/30 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
+              <div className="relative flex-shrink-0">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-2 border-gold shadow-2xl">
+                  <img 
+                    src="/images/jean-luc-chat.jpg" 
+                    alt="M. Jean-Luc Chat - DGFIP" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <span className="absolute -bottom-2 -right-2 px-2 py-0.5 bg-gold text-navy text-[10px] font-black uppercase rounded-full tracking-wide shadow-md">
+                  Inspecteur
+                </span>
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-2">
+                  <h3 className="text-xl sm:text-2xl font-black text-white">M. Jean-Luc Chat</h3>
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-gold/15 text-gold border border-gold/30 font-semibold">
+                    Inspecteur Principal DGFIP (retraité)
+                  </span>
+                </div>
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
+                  <em>« 38 ans de carrière à éplucher les déclarations fiscales m'ont appris une chose : le citoyen ne voit que la partie émergée de l'iceberg. Cotisations patronales masquées, TVA cumulative, taxes énergétiques déguisées... Avec ce simulateur citoyen, mes moustaches vous guident pour calculer l'addition intégrale, sans langue de bois ni jargon administratif. »</em>
+                </p>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs text-slate-400">
+                  <span className="flex items-center gap-1.5 text-gold font-medium">
+                    🐾 100% Indépendant
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1.5 text-gold font-medium">
+                    ⚖️ Barèmes officiels 2026
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1.5 text-gold font-medium">
+                    🔒 Aucune donnée transmise
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </section>

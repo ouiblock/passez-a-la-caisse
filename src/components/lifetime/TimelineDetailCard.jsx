@@ -82,22 +82,33 @@ export function TimelineDetailCard({ profil, resultats }) {
 
   return (
     <Card className="p-5 sm:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-2xl font-bold text-white flex items-center gap-2">
-          <Calendar className="w-6 h-6 text-gold" />
-          Détail année par année
-        </h3>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+        <div>
+          <h3 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <Calendar className="w-6 h-6 text-gold" />
+            Détail année par année
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+            Visualisez chaque euro prélevé, année après année, de vos débuts à la retraite.
+          </p>
+        </div>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-sm text-gold hover:text-yellow-400 transition-colors flex items-center gap-1"
+          className={`flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer shadow-lg ${
+            isExpanded
+              ? 'bg-slate-700 hover:bg-slate-600 text-white border border-slate-500'
+              : 'bg-gradient-to-r from-gold to-gold-light hover:from-gold-light hover:to-gold text-navy shadow-gold/20 hover:scale-105 ring-2 ring-gold/40 animate-pulse'
+          }`}
         >
           {isExpanded ? (
             <>
-              Masquer <ChevronUp className="w-4 h-4" />
+              <span>Masquer le détail</span>
+              <ChevronUp className="w-4 h-4" />
             </>
           ) : (
             <>
-              Afficher le détail <ChevronDown className="w-4 h-4" />
+              <span>🔍 Afficher le détail par année</span>
+              <ChevronDown className="w-4 h-4" />
             </>
           )}
         </button>
