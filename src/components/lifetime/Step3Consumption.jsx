@@ -87,16 +87,16 @@ export function Step3Consumption({ initialData, onContinue, onBack }) {
               <div className="ml-8 flex items-center gap-4">
                 <input
                   type="number"
-                  min="50000"
-                  max="10000000"
-                  step="10000"
+                  min="0"
+                  max="100000000"
+                  step="any"
                   value={rpPrix || ''}
                   onChange={(e) => {
                     const val = e.target.value;
-                    setRpPrix(val === '' ? 0 : parseInt(val) || 0);
+                    setRpPrix(val === '' ? 0 : parseFloat(val) || 0);
                   }}
                   onBlur={(e) => {
-                    if (!e.target.value || parseInt(e.target.value) === 0) {
+                    if (!e.target.value || parseFloat(e.target.value) === 0) {
                       setRpPrix(300000);
                     }
                   }}
@@ -125,16 +125,16 @@ export function Step3Consumption({ initialData, onContinue, onBack }) {
               <div className="ml-8 flex items-center gap-4">
                 <input
                   type="number"
-                  min="50000"
-                  max="5000000"
-                  step="10000"
+                  min="0"
+                  max="100000000"
+                  step="any"
                   value={rsPrix || ''}
                   onChange={(e) => {
                     const val = e.target.value;
-                    setRsPrix(val === '' ? 0 : parseInt(val) || 0);
+                    setRsPrix(val === '' ? 0 : parseFloat(val) || 0);
                   }}
                   onBlur={(e) => {
-                    if (!e.target.value || parseInt(e.target.value) === 0) {
+                    if (!e.target.value || parseFloat(e.target.value) === 0) {
                       setRsPrix(150000);
                     }
                   }}
@@ -277,12 +277,12 @@ export function Step3Consumption({ initialData, onContinue, onBack }) {
                 <input
                   type="number"
                   min="0"
-                  max="5000"
-                  step="50"
+                  max="100000"
+                  step="any"
                   value={elecAn}
                   onChange={(e) => {
                     const val = e.target.value;
-                    setElecAn(val === '' ? 0 : parseInt(val) || 0);
+                    setElecAn(val === '' ? 0 : parseFloat(val) || 0);
                   }}
                   className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-gold focus:border-gold"
                 />
@@ -299,12 +299,12 @@ export function Step3Consumption({ initialData, onContinue, onBack }) {
                 <input
                   type="number"
                   min="0"
-                  max="3000"
-                  step="50"
+                  max="100000"
+                  step="any"
                   value={gazAn}
                   onChange={(e) => {
                     const val = e.target.value;
-                    setGazAn(val === '' ? 0 : parseInt(val) || 0);
+                    setGazAn(val === '' ? 0 : parseFloat(val) || 0);
                   }}
                   className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-gold focus:border-gold"
                 />

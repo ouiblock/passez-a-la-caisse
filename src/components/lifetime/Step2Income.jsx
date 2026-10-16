@@ -58,12 +58,12 @@ export function Step2Income({ initialData, onContinue, onBack }) {
             <input
               type="number"
               min="0"
-              max="50000"
-              step="100"
+              max="1000000"
+              step="any"
               value={useDefault ? '' : (revenuNetMensuel || '')}
               onChange={(e) => {
                 const val = e.target.value;
-                setRevenuNetMensuel(val === '' ? null : parseInt(val) || null);
+                setRevenuNetMensuel(val === '' ? null : parseFloat(val) || null);
               }}
               placeholder={`${moyenneStatut} € (moyenne)`}
               className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-gold focus:border-gold text-lg"
@@ -124,12 +124,12 @@ export function Step2Income({ initialData, onContinue, onBack }) {
               <input
                 type="number"
                 min="0"
-                max="50000"
-                step="100"
+                max="1000000"
+                step="any"
                 value={salaireMoyenCarriere || ''}
                 onChange={(e) => {
                   const val = e.target.value;
-                  setSalaireMoyenCarriere(val === '' ? null : parseInt(val) || null);
+                  setSalaireMoyenCarriere(val === '' ? null : parseFloat(val) || null);
                 }}
                 placeholder="2200 € (moyenne)"
                 className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-lg"

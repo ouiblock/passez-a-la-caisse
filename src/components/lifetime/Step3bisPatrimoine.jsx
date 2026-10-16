@@ -88,10 +88,10 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
                 <input
                   type="number"
                   min="0"
-                  max="10000000"
-                  step="10000"
+                  max="100000000"
+                  step="any"
                   value={pea || ''}
-                  onChange={(e) => setPea(e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
+                  onChange={(e) => setPea(e.target.value === '' ? 0 : parseFloat(e.target.value) || 0)}
                   placeholder="0"
                   className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-green-500"
                 />
@@ -111,10 +111,10 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
                 <input
                   type="number"
                   min="0"
-                  max="10000000"
-                  step="10000"
+                  max="100000000"
+                  step="any"
                   value={assuranceVie || ''}
-                  onChange={(e) => setAssuranceVie(e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
+                  onChange={(e) => setAssuranceVie(e.target.value === '' ? 0 : parseFloat(e.target.value) || 0)}
                   placeholder="0"
                   className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
@@ -134,10 +134,10 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
                 <input
                   type="number"
                   min="0"
-                  max="10000000"
-                  step="10000"
+                  max="100000000"
+                  step="any"
                   value={cto || ''}
-                  onChange={(e) => setCto(e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
+                  onChange={(e) => setCto(e.target.value === '' ? 0 : parseFloat(e.target.value) || 0)}
                   placeholder="0"
                   className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-red-500"
                 />
@@ -157,10 +157,10 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
                 <input
                   type="number"
                   min="0"
-                  max="500000"
-                  step="1000"
+                  max="50000000"
+                  step="any"
                   value={livrets || ''}
-                  onChange={(e) => setLivrets(e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
+                  onChange={(e) => setLivrets(e.target.value === '' ? 0 : parseFloat(e.target.value) || 0)}
                   placeholder="0"
                   className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-yellow-500"
                 />
@@ -180,10 +180,10 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
                 <input
                   type="number"
                   min="0"
-                  max="10000000"
-                  step="10000"
+                  max="100000000"
+                  step="any"
                   value={autresPlacements || ''}
-                  onChange={(e) => setAutresPlacements(e.target.value === '' ? 0 : parseInt(e.target.value) || 0)}
+                  onChange={(e) => setAutresPlacements(e.target.value === '' ? 0 : parseFloat(e.target.value) || 0)}
                   placeholder="0"
                   className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
                 />
@@ -243,12 +243,12 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
               <input
                 type="number"
                 min="0"
-                max="500000"
-                step="1000"
+                max="50000000"
+                step="any"
                 value={revenusFonciersAnnuels || ''}
                 onChange={(e) => {
                   const val = e.target.value;
-                  setRevenusFonciersAnnuels(val === '' ? 0 : parseInt(val) || 0);
+                  setRevenusFonciersAnnuels(val === '' ? 0 : parseFloat(val) || 0);
                 }}
                 placeholder="0"
                 className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-gold focus:border-gold text-lg"
@@ -290,12 +290,12 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
               <input
                 type="number"
                 min="0"
-                max="5000000"
-                step="10000"
+                max="50000000"
+                step="any"
                 value={cash || ''}
                 onChange={(e) => {
                   const val = e.target.value;
-                  setCash(val === '' ? 0 : parseInt(val) || 0);
+                  setCash(val === '' ? 0 : parseFloat(val) || 0);
                 }}
                 placeholder="0"
                 className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-gold focus:border-gold text-lg"
@@ -325,12 +325,12 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
                 <input
                   type="number"
                   min="0"
-                  max="2000000"
-                  step="10000"
+                  max="100000000"
+                  step="any"
                   value={capitalRestant || ''}
                   onChange={(e) => {
                     const val = e.target.value;
-                    setCapitalRestant(val === '' ? 0 : parseInt(val) || 0);
+                    setCapitalRestant(val === '' ? 0 : parseFloat(val) || 0);
                   }}
                   placeholder="0"
                   className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-gold focus:border-gold text-lg"

@@ -104,6 +104,7 @@ export function Step3Amounts({
             </label>
             <input
               type="number"
+              step="any"
               value={immobilier || ''}
               onChange={(e) => handleNumberInput(e.target.value, setImmobilier)}
               className="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-navy focus:border-transparent"
@@ -118,6 +119,7 @@ export function Step3Amounts({
             </label>
             <input
               type="number"
+              step="any"
               value={financier || ''}
               onChange={(e) => handleNumberInput(e.target.value, setFinancier)}
               className="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-navy focus:border-transparent"
@@ -142,6 +144,7 @@ export function Step3Amounts({
             </label>
             <input
               type="number"
+              step="any"
               value={avAvant70 || ''}
               onChange={(e) => handleNumberInput(e.target.value, setAvAvant70)}
               className="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-navy focus:border-transparent"
@@ -156,6 +159,7 @@ export function Step3Amounts({
             </label>
             <input
               type="number"
+              step="any"
               value={avApres70 || ''}
               onChange={(e) => handleNumberInput(e.target.value, setAvApres70)}
               className="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-navy focus:border-transparent"
