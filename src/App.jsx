@@ -11,6 +11,7 @@ import { Step4Results } from './components/Step4Results';
 import { CguModal } from './components/CguModal';
 import { ChatJeanLuc } from './components/ChatJeanLuc';
 import { enregistrerVisiteReelle } from './utils/statsTracker';
+import { EasterEggModal, useKonamiEasterEgg } from './components/EasterEgg';
 
 function CookieBanner() {
   const [visible, setVisible] = useState(() => {
@@ -278,6 +279,12 @@ function App() {
     content = <LandingPageNew onSelectCalculator={handleSelectCalculator} onOpenCgu={() => setIsCguOpen(true)} />;
   }
 
+  // Easter Egg global (clavier Konami Code ou frappe mot 'bercy' / 'caisse')
+  const [globalEasterEgg, setGlobalEasterEgg] = useState(null);
+  useKonamiEasterEgg((data) => {
+    setGlobalEasterEgg(data);
+  });
+
   return (
     <div className="flex flex-col relative min-h-screen bg-navy">
       <BetaBanner />
@@ -287,6 +294,18 @@ function App() {
       <ChatJeanLuc onGoToPedagogie={handleGoToPedagogie} />
       <CookieBanner />
       <CguModal isOpen={isCguOpen} onClose={() => setIsCguOpen(false)} />
+      
+      {/* Modal Easter Egg Global */}
+      {globalEasterEgg && (
+        <EasterEggModal
+          isOpen={true}
+          onClose={() => setGlobalEasterEgg(null)}
+          title={globalEasterEgg.title}
+          message={globalEasterEgg.message}
+          mascotText={globalEasterEgg.mascotText}
+          badge="Inspecteur Secret de Bercy"
+        />
+      )}
     </div>
   );
 }

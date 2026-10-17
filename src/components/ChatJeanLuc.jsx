@@ -121,6 +121,13 @@ export function ChatJeanLuc({ onGoToPedagogie }) {
       answer: "Même moi, malgré mon ancien badge d'Inspecteur Principal, je n'y ai pas accès ! Vos calculs s'effectuent à 100% localement dans votre propre navigateur. Aucun serveur central, zéro compte utilisateur, aucun cookie publicitaire. Vous êtes totalement anonyme et souverain."
     },
     {
+      id: 'devise-caisse',
+      category: 'Secret Défense',
+      question: "Pourquoi répéter sans cesse 'PASSEZ À LA CAISSE !' ?",
+      icon: "🪙",
+      answer: "Parce que c'est l'unique constante universelle de notre belle République depuis 1789 ! Que vous achetiez une baguette, receviez votre paie ou léguiez votre bicyclette... vous finissez toujours par passer à la caisse ! Autant le faire avec le sourire et en sachant exactement combien !"
+    },
+    {
       id: 'contact',
       category: 'Contact',
       question: "Comment vous contacter ou signaler une remarque ?",

@@ -9,6 +9,7 @@ import { EquivalencesCard } from './EquivalencesCard';
 import { TimelineDetailCard } from './TimelineDetailCard';
 import { SuccessionEstimationCard } from './SuccessionEstimationCard';
 import { exportLifetimePDF } from '../../utils/exportLifetimePDF';
+import { PassezAlaCaisseButton } from '../EasterEgg';
 
 const CATEGORIES = [
   { key: 'tvaConso', label: 'TVA sur consommation', color: 'bg-red-500', description: 'TVA payée sur vos achats quotidiens' },
@@ -100,9 +101,10 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
             </span>
           </div>
           <div className="relative">
-            <p className="text-sm sm:text-base text-slate-300 italic leading-relaxed">
-              "J'ai minutieusement épluché votre dossier. Le bilan est fait. Il est temps de... <strong className="text-gold text-lg">passer à la caisse</strong>."
+            <p className="text-sm sm:text-base text-slate-300 italic leading-relaxed mb-3">
+              "J'ai minutieusement épluché votre dossier. Le bilan est fait. Il est grand temps d'honorer la devise de la République..."
             </p>
+            <PassezAlaCaisseButton />
           </div>
         </div>
       </div>

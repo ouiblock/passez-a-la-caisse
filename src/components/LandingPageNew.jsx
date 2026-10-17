@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Calculator, TrendingUp, BookOpen, Shield, Lock, Eye, FileText, ArrowRight } from 'lucide-react';
 import { Button } from './ui/Button';
 import { StatsCounter } from './StatsCounter';
+import { PassezAlaCaisseButton } from './EasterEgg';
 
 export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
-  const [disclaimerChecked, setDisclaimerChecked] = useState(false);  return (
+  const [disclaimerChecked, setDisclaimerChecked] = useState(false);
+  return (
     <div className="min-h-screen bg-navy text-white font-sans overflow-x-hidden">
       {/* Subtle background pattern */}
       <div className="fixed inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
@@ -14,23 +16,27 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
         {/* ── Hero Section ── */}
         <header className="flex flex-col items-center text-center mb-16 animate-fade-up">
 
+          {/* Badges du haut : Mascotte Jean-Luc Chat + Devise Interactive */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+            <div className="inline-flex items-center gap-3 p-1.5 pr-4 bg-navy-light/70 border border-gold/30 rounded-full backdrop-blur-sm shadow-lg hover:border-gold/60 transition-all">
+              <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold flex-shrink-0">
+                <img 
+                  src="/images/jean-luc-chat.jpg" 
+                  alt="M. Jean-Luc Chat - DGFIP" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-left text-xs">
+                <span className="text-gold font-bold">M. Jean-Luc Chat</span>
+                <span className="text-slate-400 hidden sm:inline"> • Inspecteur DGFIP retraité</span>
+              </div>
+              <span className="ml-1 text-[10px] px-2 py-0.5 rounded-full bg-gold/15 text-gold font-semibold uppercase tracking-wider">
+                Enquête citoyenne
+              </span>
+            </div>
 
-          {/* Badge Mascotte Jean-Luc Chat */}
-          <div className="inline-flex items-center gap-3 p-1.5 pr-4 bg-navy-light/70 border border-gold/30 rounded-full mb-6 backdrop-blur-sm shadow-lg hover:border-gold/60 transition-all">
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold flex-shrink-0">
-              <img 
-                src="/images/jean-luc-chat.jpg" 
-                alt="M. Jean-Luc Chat - DGFIP" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="text-left text-xs">
-              <span className="text-gold font-bold">M. Jean-Luc Chat</span>
-              <span className="text-slate-400 hidden sm:inline"> • Inspecteur DGFIP retraité</span>
-            </div>
-            <span className="ml-1 text-[10px] px-2 py-0.5 rounded-full bg-gold/15 text-gold font-semibold uppercase tracking-wider">
-              Enquête citoyenne
-            </span>
+            {/* Devise interactive à cliquer avec son de tiroir-caisse et easter egg */}
+            <PassezAlaCaisseButton />
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
