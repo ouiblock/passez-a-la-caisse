@@ -80,6 +80,13 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
     }
   };
 
+  const scrollToDetails = () => {
+    const el = document.getElementById('detail-poste-par-poste');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   // Punchline personnalisée de Jean-Luc Chat selon le montant
   const getChatReaction = (m) => {
     if (m >= 1500000) {
@@ -205,9 +212,14 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
           <div className="text-4xl sm:text-6xl md:text-7xl font-bold text-gold mb-3 break-words">
             {formatEuro(totalAvecSuccession)}
           </div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs sm:text-sm font-semibold mb-3">
-            <span>👇</span> Voir le détail poste par poste et année par année plus bas
-          </div>
+          <button
+            type="button"
+            onClick={scrollToDetails}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/15 hover:bg-gold/25 border border-gold/30 hover:border-gold text-gold text-xs sm:text-sm font-semibold mb-3 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 group shadow-sm"
+          >
+            <span className="transition-transform group-hover:translate-y-0.5">👇</span>
+            <span>Voir le détail poste par poste et année par année plus bas</span>
+          </button>
           <div className="text-lg sm:text-xl text-green-400 mb-2">
             Soit {((totalAvecSuccession / (resultats.richesseTotaleCreee || 1)) * 100).toFixed(1)}% de vos revenus nets cumulés
           </div>
@@ -291,7 +303,7 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
       </div>
 
       {/* Répartition par catégorie */}
-      <Card className="p-5 sm:p-8">
+      <Card id="detail-poste-par-poste" className="p-5 sm:p-8 scroll-mt-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-white flex items-center gap-2">
             <PieChart className="w-6 h-6 text-gold" />
