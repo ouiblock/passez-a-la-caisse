@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Home } from 'lucide-react';
+import { Home, BookOpen } from 'lucide-react';
 import { Step1Profile } from './Step1Profile';
 import { Step2Income } from './Step2Income';
 import { Step3Consumption } from './Step3Consumption';
 import { Step3bisPatrimoine } from './Step3bisPatrimoine';
 import { Step4LifetimeResults } from './Step4LifetimeResults';
 import { DEFAULT_PROFIL } from '../../types/tax';
+import { exportBibleFiscalePDF } from '../../utils/exportBibleFiscalePDF';
 
 export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -66,18 +67,30 @@ export function LifetimeCalculator({ onBack, onGoToPedagogie }) {
       <div className="absolute top-3 left-3 right-3 sm:top-4 sm:left-4 sm:right-4 z-40 flex justify-between items-center gap-2 pointer-events-none">
         <button
           onClick={onBack}
-          className="pointer-events-auto flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors border border-gray-600 shadow-lg"
+          className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors border border-gray-600 shadow-lg text-xs sm:text-sm cursor-pointer"
         >
-          <Home className="w-5 h-5" />
-          <span className="hidden sm:inline">Retour à l'accueil</span>
+          <Home className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="hidden sm:inline">Accueil</span>
+        </button>
+
+        {/* Bouton direct vers le Livre de Jean-Luc Chat */}
+        <button
+          type="button"
+          onClick={() => exportBibleFiscalePDF()}
+          title="Télécharger gratuitement le livre complet (10 pages)"
+          className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-gold/20 via-yellow-900/30 to-gold/20 hover:from-gold/30 hover:to-gold/30 text-gold hover:text-white rounded-lg transition-all border border-gold/50 hover:border-gold shadow-lg shadow-gold/10 text-xs sm:text-sm font-bold cursor-pointer hover:scale-105 active:scale-95"
+        >
+          <BookOpen className="w-4 h-4 text-gold" />
+          <span className="hidden sm:inline">📘 Le Livre gratuit (10 pages)</span>
+          <span className="sm:hidden">📘 Livre (10p)</span>
         </button>
 
         <a
           href="mailto:contact@passezalacaisse.org?subject=Signalement de bug ou erreur"
-          className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-900/60 hover:bg-red-800/80 text-red-100 rounded-lg transition-colors border border-red-500/30 shadow-lg text-sm"
+          className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-900/60 hover:bg-red-800/80 text-red-100 rounded-lg transition-colors border border-red-500/30 shadow-lg text-xs sm:text-sm"
         >
-          <span className="text-base">🐞</span>
-          <span className="hidden sm:inline font-medium">Signaler un bug / erreur</span>
+          <span className="text-sm sm:text-base">🐞</span>
+          <span className="hidden sm:inline font-medium">Signaler un bug</span>
         </a>
       </div>
 

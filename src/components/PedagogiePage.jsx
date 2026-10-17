@@ -218,7 +218,7 @@ export function PedagogiePage({ onBack }) {
               )}
             </Button>
             <p className="text-[11px] text-center text-slate-400 mt-1.5">
-              Gratuit • 4 pages PDF illustrées
+              Gratuit • Livre officiel complet 10 pages PDF
             </p>
           </div>
         </div>

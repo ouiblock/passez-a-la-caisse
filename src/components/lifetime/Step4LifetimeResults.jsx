@@ -275,28 +275,49 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
             </div>
           </div>
 
-          <div className="flex-shrink-0 w-full md:w-auto">
+          <div className="flex-shrink-0 w-full md:w-auto flex flex-col gap-2.5">
             <Button
               variant="primary"
-              size="xl"
+              size="lg"
               onClick={handleExportPDF}
               disabled={pdfLoading}
-              className="w-full md:w-auto text-base sm:text-lg font-black px-8 py-4 shadow-[0_0_30px_rgba(184,149,90,0.4)] hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center gap-3"
+              className="w-full text-sm sm:text-base font-black px-6 py-3.5 shadow-[0_0_25px_rgba(184,149,90,0.4)] hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2.5"
             >
               {pdfLoading ? (
                 <>
-                  <Loader2 className="w-6 h-6 animate-spin text-navy" />
-                  <span>Génération du document...</span>
+                  <Loader2 className="w-5 h-5 animate-spin text-navy" />
+                  <span>Génération du bilan...</span>
                 </>
               ) : (
                 <>
-                  <Download className="w-6 h-6 text-navy" />
-                  <span>Générer mon rapport PDF gratuit</span>
+                  <Download className="w-5 h-5 text-navy" />
+                  <span>Mon Bilan Personnalisé (PDF)</span>
                 </>
               )}
             </Button>
-            <p className="text-[11px] text-center text-slate-400 mt-2">
-              🔒 100% anonyme • Généré instantanément dans votre navigateur
+
+            <button
+              type="button"
+              onClick={handleDownloadBible}
+              disabled={bibleLoading}
+              className="w-full py-2.5 px-4 rounded-xl bg-navy/80 hover:bg-navy border border-gold/50 hover:border-gold text-gold hover:text-yellow-300 font-bold text-xs sm:text-sm transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer shadow-md"
+            >
+              {bibleLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-gold" />
+                  <span>Téléchargement...</span>
+                </>
+              ) : (
+                <>
+                  <span>🐾</span>
+                  <span>Télécharger le Livre officiel (10 pages)</span>
+                  <Download className="w-4 h-4 text-gold ml-1" />
+                </>
+              )}
+            </button>
+
+            <p className="text-[11px] text-center text-slate-400">
+              🔒 100% gratuit & confidentiel • Sans inscription
             </p>
           </div>
         </div>
@@ -544,7 +565,7 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
               )}
             </Button>
             <p className="text-[11px] text-center text-slate-400 mt-2">
-              📖 4 pages illustrées • Format A4 haute définition
+              📖 10 pages complètes • Format A4 haute définition
             </p>
           </div>
         </div>

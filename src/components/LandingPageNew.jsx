@@ -51,6 +51,19 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
 
             {/* Devise interactive à cliquer avec son de tiroir-caisse et easter egg */}
             <PassezAlaCaisseButton />
+
+            {/* Accès direct au livre officiel de 10 pages */}
+            <button
+              type="button"
+              onClick={handleDownloadBible}
+              disabled={bibleLoading}
+              title="Télécharger gratuitement le livre complet (10 pages)"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-gold/15 hover:bg-gold/25 border border-gold/40 hover:border-gold rounded-full text-gold text-xs font-bold transition-all shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-gold" />
+              <span>📘 Livre gratuit (10 pages)</span>
+              <Download className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
@@ -97,6 +110,30 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
                 <Calculator className="w-5 h-5 mr-2" />
                 Simuler ma succession
               </Button>
+            </div>
+
+            {/* Accès direct sans prérequis au Livre de Jean-Luc Chat */}
+            <div className="flex flex-col items-center gap-1.5 mt-2">
+              <button
+                type="button"
+                onClick={handleDownloadBible}
+                disabled={bibleLoading}
+                className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-navy-light via-navy to-navy-light border border-gold/50 hover:border-gold text-gold hover:text-yellow-300 text-xs sm:text-sm font-bold shadow-lg shadow-gold/10 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+              >
+                {bibleLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-gold" />
+                    <span>Téléchargement en cours...</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-base">🎁</span>
+                    <span>Télécharger directement le livre gratuit de Jean-Luc Chat (PDF • 10 pages)</span>
+                    <Download className="w-4 h-4 text-gold ml-1" />
+                  </>
+                )}
+              </button>
+              <span className="text-[11px] text-slate-400">« La Bible (très) humoristique des taxes et impôts de France » • 100% gratuit</span>
             </div>
           </div>
 
@@ -178,7 +215,7 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
                 )}
               </Button>
               <p className="text-[11px] text-center text-slate-400 mt-1.5">
-                📖 Guide PDF 4 pages illustrées • Sans inscription
+                📖 Livre officiel 10 pages complètes • Sans inscription
               </p>
             </div>
           </div>
@@ -364,7 +401,15 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
         <footer className="border-t border-white/5 pt-8 pb-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
             <p>© 2025-2026 Passez à la caisse — Outil citoyen et pédagogique indépendant</p>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                type="button"
+                onClick={handleDownloadBible}
+                className="text-gold hover:text-yellow-300 font-bold transition-colors cursor-pointer flex items-center gap-1"
+              >
+                📘 Le Livre (10 pages)
+              </button>
+              <span className="text-slate-700">•</span>
               <button
                 type="button"
                 onClick={() => onSelectCalculator('sources')}
