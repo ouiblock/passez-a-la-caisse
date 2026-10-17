@@ -9,6 +9,7 @@ import { EquivalencesCard } from './EquivalencesCard';
 import { TimelineDetailCard } from './TimelineDetailCard';
 import { SuccessionEstimationCard } from './SuccessionEstimationCard';
 import { exportLifetimePDF } from '../../utils/exportLifetimePDF';
+import { exportBibleFiscalePDF } from '../../utils/exportBibleFiscalePDF';
 import { PassezAlaCaisseButton } from '../EasterEgg';
 
 const CATEGORIES = [
@@ -32,6 +33,7 @@ const CATEGORIES = [
 export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie }) {
   const [showDetails, setShowDetails] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [bibleLoading, setBibleLoading] = useState(false);
   
   // Calcul des résultats
   const resultats = estimateLifetimeTaxes(profil);
@@ -66,6 +68,46 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
     }
   };
 
+  const handleDownloadBible = async () => {
+    setBibleLoading(true);
+    try {
+      await exportBibleFiscalePDF();
+    } catch (err) {
+      console.error('Erreur téléchargement Bible fiscale:', err);
+      alert('Une erreur est survenue lors de la génération du document. Réessayez dans un instant.');
+    } finally {
+      setBibleLoading(false);
+    }
+  };
+
+  // Punchline personnalisée de Jean-Luc Chat selon le montant
+  const getChatReaction = (m) => {
+    if (m >= 1500000) {
+      return {
+        titre: 'Mécène d\'Or de la République 🏛️',
+        desc: '"Miaou ! Plus d\'un million et demi d\'euros ! Vous financez à vous seul un demi-kilomètre d\'autoroute et le gymnase de votre commune. Les caisses de l\'État ronronnent de pur bonheur !"'
+      };
+    }
+    if (m >= 800000) {
+      return {
+        titre: 'Pilier du Trésor Public 🎖️',
+        desc: '"Impressionnant ! Vos contributions cumulées dépassent le budget annuel d\'un village entier. Mon œil d\'inspecteur applaudit des deux pattes !"'
+      };
+    }
+    if (m >= 400000) {
+      return {
+        titre: 'Contribuable d\'Élite 🐾',
+        desc: '"Un très solide parcours fiscal ! Pas un centime n\'a échappé à mon carnet à souches. Vous avez fièrement passé à la caisse toute votre vie !"'
+      };
+    }
+    return {
+      titre: 'Fourmi Fiscale Civique 🐜',
+      desc: '"Chaque goutte compte dans le grand fleuve des finances de la République ! Vous avez honorablement apporté votre pierre à l\'édifice commun."'
+    };
+  };
+
+  const chatReaction = getChatReaction(totalAvecSuccession);
+
   // Calcul des pourcentages pour le graphique (avec succession)
   const totalNonNul = totalAvecSuccession > 0 ? totalAvecSuccession : 1;
   const categoriesAvecPourcentage = CATEGORIES.map(cat => ({
@@ -85,7 +127,7 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
 
   return (
     <div className="space-y-6">
-      {/* Message de M. Jean-Luc Chat */}
+      {/* Message & Évaluation de M. Jean-Luc Chat */}
       <div className="flex items-start gap-4 p-6 bg-navy-light/40 border border-gold/20 rounded-2xl relative overflow-hidden animate-fade-in-up">
         <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
         <img 
@@ -94,15 +136,18 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
           className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-gold shadow-lg object-cover"
         />
         <div className="flex-1 mt-1">
-          <div className="flex items-center gap-2 mb-1.5">
+          <div className="flex flex-wrap items-center gap-2 mb-1.5">
             <h3 className="font-bold text-white text-base sm:text-lg">M. Jean-Luc Chat</h3>
             <span className="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider text-gold bg-gold/10 rounded-full border border-gold/20">
-              Inspecteur Principal
+              Inspecteur Principal Honoraire
+            </span>
+            <span className="px-2 py-0.5 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20">
+              {chatReaction.titre}
             </span>
           </div>
           <div className="relative">
             <p className="text-sm sm:text-base text-slate-300 italic leading-relaxed mb-3">
-              "J'ai minutieusement épluché votre dossier. Le bilan est fait. Il est grand temps d'honorer la devise de la République..."
+              {chatReaction.desc}
             </p>
             <PassezAlaCaisseButton />
           </div>
@@ -298,6 +343,17 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
             </div>
           ))}
         </div>
+
+        {/* Note d'esprit féline de Jean-Luc Chat */}
+        <div className="mt-5 p-3.5 bg-navy/60 rounded-xl border border-gold/25 flex items-start gap-3 text-xs sm:text-sm text-slate-300">
+          <span className="text-xl">🐾</span>
+          <div>
+            <strong className="text-gold">L'analyse secrète de Jean-Luc Chat :</strong>{' '}
+            <span className="italic text-slate-300">
+              "Observez bien la ligne des cotisations patronales : c'est le tour de prestidigitation préféré de la fiscalité. L'employeur paie, l'État encaisse, et vous ne le voyez jamais passer sur votre compte en banque !"
+            </span>
+          </div>
+        </div>
       </Card>
 
       {/* Timeline simplifiée */}
@@ -431,6 +487,54 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
               mon-entreprise.urssaf.fr
             </a>
           </p>
+        </div>
+      </Card>
+
+      {/* ── Bonus Exclusif : La Bible de la fiscalité (avec humour) ── */}
+      <Card className="p-6 sm:p-8 bg-gradient-to-r from-navy-lighter via-navy to-navy-lighter border-2 border-gold/60 shadow-[0_10px_35px_rgba(221,168,83,0.15)] relative overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-48 h-48 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="relative flex flex-col md:flex-row items-center gap-6 justify-between">
+          <div className="flex items-start gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-gold/20 border border-gold/40 flex items-center justify-center flex-shrink-0 text-3xl shadow-lg">
+              📘
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold mb-1.5 uppercase tracking-wide">
+                <span>🐾</span> LE LIVRE PAR JEAN-LUC CHAT
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-white">
+                La Bible (très) humoristique des taxes et impôts de France
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl leading-relaxed">
+                <em>Des Gaulois au prélèvement à la source : 2 000 ans de « passez à la caisse »</em>. Téléchargez gratuitement ce livre complet (10 pages) rédigé par notre inspecteur des impôts retraité.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex-shrink-0 w-full md:w-auto">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={handleDownloadBible}
+              disabled={bibleLoading}
+              className="w-full md:w-auto font-black px-6 py-3.5 shadow-lg shadow-gold/20 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+            >
+              {bibleLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin text-navy" />
+                  <span>Préparation du bréviaire...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-5 h-5 text-navy" />
+                  <span>Télécharger la Bible PDF gratuite</span>
+                </>
+              )}
+            </Button>
+            <p className="text-[11px] text-center text-slate-400 mt-2">
+              📖 4 pages illustrées • Format A4 haute définition
+            </p>
+          </div>
         </div>
       </Card>
 

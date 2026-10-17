@@ -13,6 +13,8 @@
 
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { detailImpotParAnnee } from './lifetime/adapters/impotRevenu';
+import { detailCotisationsParAnnee } from './lifetime/adapters/cotisations';
 
 // ─── Palette couleurs ────────────────────────────────────────────────────────
 const NAVY    = [11,  31,  58];
@@ -101,7 +103,7 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
   const date = new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
   const totalAvecSuccession = (resultats.total || 0) + (successionEstimation?.droitsTotal || 0);
   const taux = tauxGlobal(totalAvecSuccession, resultats.richesseTotaleCreee);
-  const TOTAL_PAGES = 6;
+  const TOTAL_PAGES = 8;
 
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
@@ -414,9 +416,151 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
   });
 
   // ──────────────────────────────────────────────────────────────────────────
-  // PAGE 5 — PISTES DE RÉFLEXION
+  // PAGE 5 — CHRONIQUE DÉTAILLÉE ANNÉE PAR ANNÉE : VIE ACTIVE
   // ──────────────────────────────────────────────────────────────────────────
-  y = addPage(doc, 'Pistes de réflexion (à but pédagogique)', 5, TOTAL_PAGES, date);
+  const ageDebut = profil.ageDebutCarriere || 22;
+  const ageRetraite = profil.retraiteAge;
+  const ageFin = profil.esperanceVie;
+  const irDetails = detailImpotParAnnee(profil);
+  const cotDetails = detailCotisationsParAnnee(profil);
+  const dureeTotal = Math.max(1, ageFin - ageDebut + 1);
+  const dureeActive = Math.max(1, ageRetraite - ageDebut);
+  const dureeRetraite = Math.max(1, ageFin - ageRetraite + 1);
+
+  y = addPage(doc, `Chronique an par an — Phase active (${ageDebut} à ${ageRetraite - 1} ans)`, 5, TOTAL_PAGES, date);
+
+  // Note d'esprit de Jean-Luc Chat
+  doc.setFillColor(245, 248, 255);
+  doc.roundedRect(10, y, 190, 13, 2, 2, 'F');
+  setFont(doc, 8, NAVY, 'bold');
+  doc.text('🐾 L\'œil de M. Jean-Luc Chat (Phase Carrière) :', 14, y + 4.5);
+  setFont(doc, 7.2, [40, 50, 70], 'italic');
+  doc.text('"Voici le détail an par an de votre phase active : cotisations sociales URSSAF, impôt sur le revenu et taxes de consommation. Chaque euro gagné est minutieusement retracé !"', 14, y + 9.5);
+  y += 16;
+
+  const activeRows = [];
+  let cumulGeneral = 0;
+
+  for (let age = ageDebut; age < ageRetraite; age++) {
+    const anneeIndex = age - ageDebut + 1;
+    const irAnnee = irDetails.find(item => item.age === age)?.impot ?? Math.round(resultats.impotRevenu / dureeTotal);
+    const cotItem = cotDetails.find(item => item.age === age);
+
+    const cotS = cotItem ? cotItem.salariales : Math.round(resultats.cotSalariales / dureeActive);
+    const cotP = cotItem ? cotItem.patronales : Math.round(resultats.cotPatronales / dureeActive);
+    const tva = Math.round(resultats.tvaConso / dureeTotal);
+    const energie = Math.round((resultats.energieCarburant + resultats.energieElectricite + resultats.energieGaz) / dureeTotal);
+    const tf = Math.round((resultats.taxeFonciere / dureeTotal) * Math.pow(1.02, anneeIndex - 1));
+
+    const totalAn = cotS + cotP + irAnnee + tva + energie + tf;
+    cumulGeneral += totalAn;
+
+    activeRows.push([
+      `${age} ans`,
+      fmt(cotS + cotP),
+      fmt(irAnnee),
+      fmt(tva + energie + tf),
+      fmt(totalAn),
+      fmt(cumulGeneral)
+    ]);
+  }
+
+  autoTable(doc, {
+    startY: y,
+    head: [['Âge', 'Cotisations URSSAF', 'Impôt Revenu', 'TVA & Conso / Taxes', 'Total Annuel', 'Cumul Actif']],
+    body: activeRows,
+    theme: 'striped',
+    styles: { fontSize: 6.5, cellPadding: 1.1 },
+    headStyles: { fillColor: NAVY, textColor: WHITE, fontStyle: 'bold', halign: 'center' },
+    columnStyles: {
+      0: { cellWidth: 18, halign: 'center', fontStyle: 'bold' },
+      1: { cellWidth: 35, halign: 'right' },
+      2: { cellWidth: 32, halign: 'right' },
+      3: { cellWidth: 35, halign: 'right' },
+      4: { cellWidth: 35, halign: 'right', fontStyle: 'bold', textColor: [180, 50, 0] },
+      5: { cellWidth: 35, halign: 'right', fontStyle: 'bold', textColor: NAVY }
+    },
+    alternateRowStyles: { fillColor: LIGHTGRAY }
+  });
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // PAGE 6 — CHRONIQUE DÉTAILLÉE ANNÉE PAR ANNÉE : RETRAITE
+  // ──────────────────────────────────────────────────────────────────────────
+  y = addPage(doc, `Chronique an par an — Phase retraite (${ageRetraite} à ${ageFin} ans)`, 6, TOTAL_PAGES, date);
+
+  doc.setFillColor(245, 248, 255);
+  doc.roundedRect(10, y, 190, 13, 2, 2, 'F');
+  setFont(doc, 8, NAVY, 'bold');
+  doc.text('🐾 L\'œil de M. Jean-Luc Chat (Phase Retraite) :', 14, y + 4.5);
+  setFont(doc, 7.2, [40, 50, 70], 'italic');
+  doc.text('"À la retraite, plus de cotisations patronales... mais la CSG, la CRDS, la CASA, la taxe foncière et la TVA veillent au grain jusqu\'au bout !"', 14, y + 9.5);
+  y += 16;
+
+  const retraiteRows = [];
+  let cumulRetraite = 0;
+
+  for (let age = ageRetraite; age <= ageFin; age++) {
+    const anneeIndex = age - ageDebut + 1;
+    const irAnnee = irDetails.find(item => item.age === age)?.impot ?? Math.round(resultats.impotRevenu / dureeTotal);
+    const tva = Math.round(resultats.tvaConso / dureeTotal);
+    const energie = Math.round((resultats.energieCarburant + resultats.energieElectricite + resultats.energieGaz) / dureeTotal);
+    const tf = Math.round((resultats.taxeFonciere / dureeTotal) * Math.pow(1.02, anneeIndex - 1));
+    const retPS = Math.round(resultats.retraitesPrelevSociaux / dureeRetraite);
+
+    const totalAn = irAnnee + tva + energie + tf + retPS;
+    cumulGeneral += totalAn;
+    cumulRetraite += totalAn;
+
+    retraiteRows.push([
+      `${age} ans`,
+      fmt(retPS),
+      fmt(irAnnee),
+      fmt(tva + energie + tf),
+      fmt(totalAn),
+      fmt(cumulGeneral)
+    ]);
+  }
+
+  autoTable(doc, {
+    startY: y,
+    head: [['Âge', 'Prélèv. Sociaux Retraite', 'Impôt Revenu', 'TVA & Conso / Taxes', 'Total Annuel', 'Cumul Total Vie']],
+    body: retraiteRows,
+    theme: 'striped',
+    styles: { fontSize: 7, cellPadding: 1.3 },
+    headStyles: { fillColor: NAVY, textColor: WHITE, fontStyle: 'bold', halign: 'center' },
+    columnStyles: {
+      0: { cellWidth: 18, halign: 'center', fontStyle: 'bold' },
+      1: { cellWidth: 35, halign: 'right' },
+      2: { cellWidth: 32, halign: 'right' },
+      3: { cellWidth: 35, halign: 'right' },
+      4: { cellWidth: 35, halign: 'right', fontStyle: 'bold', textColor: [180, 50, 0] },
+      5: { cellWidth: 35, halign: 'right', fontStyle: 'bold', textColor: NAVY }
+    },
+    alternateRowStyles: { fillColor: LIGHTGRAY }
+  });
+
+  // Encadré de synthèse comparatif en bas de la page retraite
+  const finalYRetraite = doc.lastAutoTable?.finalY || y + 100;
+  if (finalYRetraite < 240) {
+    const boxY = finalYRetraite + 8;
+    doc.setFillColor(254, 250, 240);
+    doc.roundedRect(10, boxY, 190, 24, 2, 2, 'F');
+    doc.setDrawColor(...GOLD);
+    doc.setLineWidth(0.8);
+    doc.roundedRect(10, boxY, 190, 24, 2, 2, 'S');
+
+    setFont(doc, 8.5, NAVY, 'bold');
+    doc.text('⚖️ Synthèse des deux cycles de vie :', 14, boxY + 5.5);
+    setFont(doc, 7.8, [50, 50, 60]);
+    doc.text(`• Phase active (${dureeActive} ans de carrière) : ${fmt(cumulGeneral - cumulRetraite)} prélevés au total, soit ${fmt(Math.round((cumulGeneral - cumulRetraite) / dureeActive))}/an en moyenne.`, 14, boxY + 11.5);
+    doc.text(`• Phase retraite (${dureeRetraite} ans de retraite) : ${fmt(cumulRetraite)} prélevés au total, soit ${fmt(Math.round(cumulRetraite / dureeRetraite))}/an en moyenne.`, 14, boxY + 16.5);
+    doc.text(`• Cumul fiscal vie entière : ${fmt(cumulGeneral)} versés à la collectivité (hors succession).`, 14, boxY + 21);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // PAGE 7 — PISTES DE RÉFLEXION
+  // ──────────────────────────────────────────────────────────────────────────
+  y = addPage(doc, 'Pistes de réflexion (à but pédagogique)', 7, TOTAL_PAGES, date);
 
   setFont(doc, 8.5, GRAY);
   doc.text('Ces pistes sont présentées à titre informatif et pédagogique. Elles ne constituent pas un conseil fiscal ou patrimonial.', 10, y);
@@ -458,7 +602,7 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
 
   for (const piste of pistes) {
     if (y > 260) {
-      y = addPage(doc, 'Pistes de réflexion (suite)', 5, TOTAL_PAGES, date);
+      y = addPage(doc, 'Pistes de réflexion (suite)', 7, TOTAL_PAGES, date);
     }
     doc.setFillColor(245, 248, 255);
     doc.roundedRect(10, y, 190, 5, 1, 1, 'F');
@@ -472,9 +616,9 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
   }
 
   // ──────────────────────────────────────────────────────────────────────────
-  // PAGE 6 — DISCLAIMER JURIDIQUE
+  // PAGE 8 — DISCLAIMER JURIDIQUE
   // ──────────────────────────────────────────────────────────────────────────
-  y = addPage(doc, 'Avertissements — Mentions légales', 6, TOTAL_PAGES, date);
+  y = addPage(doc, 'Avertissements — Mentions légales', 8, TOTAL_PAGES, date);
 
   // Encadré d'avertissement principal
   doc.setFillColor(255, 240, 230);
@@ -489,7 +633,7 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
   const disclaimerBlocks = [
     {
       titre: '1. Finalite pedagogique — aucun conseil fiscal',
-      texte: `"Un billet pour Bercy" est un outil de sensibilisation conçu par un collectif anonyme de citoyens ` +
+      texte: `"Passez à la caisse" est un outil de sensibilisation conçu par un collectif anonyme de citoyens ` +
         `pour illustrer, de manière concrète et accessible, le poids des prélèvements obligatoires sur une vie en France. ` +
         `Ce document ne constitue en aucun cas un conseil fiscal, juridique, patrimonial ou financier. ` +
         `Il n'a pas vocation à se substituer à une consultation auprès d'un professionnel qualifié. ` +
@@ -510,20 +654,20 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
       titre: '3. Anonymat & protection des donnees',
       texte: `Cet outil ne collecte aucune donnée personnelle. Aucune information saisie n'est transmise à un serveur tiers, ` +
         `enregistrée ni partagée. L'ensemble des calculs s'effectue localement dans votre navigateur. ` +
-        `Le collectif "Un billet pour Bercy" n'a aucun lien avec l'administration fiscale française (DGFIP, URSSAF, Ministère de l'Économie) ` +
+        `Le collectif "Passez à la caisse" n'a aucun lien avec l'administration fiscale française (DGFIP, URSSAF, Ministère de l'Économie) ` +
         `ni avec aucun parti politique, syndicat, association agréée ou prestataire financier.`
     },
     {
       titre: '4. Absence de responsabilite',
-      texte: `Le collectif "Un billet pour Bercy" décline toute responsabilité quant aux décisions prises par les utilisateurs ` +
+      texte: `Le collectif décline toute responsabilité quant aux décisions prises par les utilisateurs ` +
         `sur la base des estimations produites par cet outil. Les montants affichés sont des ordres de grandeur indicatifs. ` +
         `Les barèmes fiscaux évoluent chaque année lors de la loi de finances ; les données présentées ici correspondent ` +
         `aux règles en vigueur en 2026 appliquées de façon conventionnelle sur l'ensemble de la vie simulée.`
     },
     {
       titre: '5. Le mot de M. Jean-Luc Chat',
-      texte: `"Ces chiffres vous ont peut-être donné des sueurs froides — c'est tout à fait normal et même souhaitable. ` +
-        `La fiscalité est complexe, évolutive, et votre situation personnelle mérite une attention individuelle. ` +
+      texte: `"Ces chiffres vous ont peut-être donné des sueurs froides — c'est tout à fait normal et même salutaire. ` +
+        `La fiscalité est complexe, vivante, et votre situation personnelle mérite une attention individuelle. ` +
         `Consultez un professionnel ! Et si vous souhaitez approfondir, rapprochez-vous d'un notaire ou d'un avocat fiscaliste ` +
         `avant toute décision. Ils sont bien plus qualifiés que moi pour vous donner un vrai conseil — j'ai beau être Inspecteur Principal, ` +
         `je reste un chat." — M. Jean-Luc Chat, Inspecteur Principal DGFIP (retraite)`
@@ -553,6 +697,18 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
     doc.text('Contact & collaboration', 14, y + 5);
     setFont(doc, 8, [30, 60, 120]);
     doc.text('Pour toute question, signalement d\'erreur ou demande de collaboration : contact@passezalacaisse.org', 14, y + 11);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // HARMONISATION UNIVERSELLE DU NUMÉRO DE PAGE (PAGE X / Y)
+  // ═══════════════════════════════════════════════════════════════════════════
+  const totalPagesCount = doc.internal.getNumberOfPages();
+  for (let i = 2; i <= totalPagesCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor(...NAVY);
+    doc.rect(160, 5, 45, 10, 'F');
+    setFont(doc, 8.5, GRAY);
+    doc.text(`Page ${i} / ${totalPagesCount}`, 200, 11, { align: 'right' });
   }
 
   // ─── Sauvegarde ────────────────────────────────────────────────────────────

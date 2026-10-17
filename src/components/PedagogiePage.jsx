@@ -1,9 +1,24 @@
 import { useState } from 'react';
-import { Home, BookOpen, ExternalLink, HelpCircle, FileText, CheckCircle2 } from 'lucide-react';
+import { Home, BookOpen, ExternalLink, HelpCircle, FileText, CheckCircle2, Download, Loader2 } from 'lucide-react';
 import { Card } from './ui/Card';
+import { Button } from './ui/Button';
+import { exportBibleFiscalePDF } from '../utils/exportBibleFiscalePDF';
 
 export function PedagogiePage({ onBack }) {
   const [activeTab, setActiveTab] = useState('decryptage'); // 'decryptage' or 'faq'
+  const [bibleLoading, setBibleLoading] = useState(false);
+
+  const handleDownloadBible = async () => {
+    setBibleLoading(true);
+    try {
+      await exportBibleFiscalePDF();
+    } catch (err) {
+      console.error('Erreur téléchargement Bible fiscale:', err);
+      alert('Une erreur est survenue lors de la génération du document. Réessayez dans un instant.');
+    } finally {
+      setBibleLoading(false);
+    }
+  };
 
   const sections = [
     {
@@ -150,7 +165,7 @@ export function PedagogiePage({ onBack }) {
 
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         {/* En-tête */}
-        <div className="text-center mb-10 mt-12 animate-fade-up">
+        <div className="text-center mb-8 mt-12 animate-fade-up">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gold/25 border border-gold mb-4">
             <BookOpen className="w-8 h-8 text-gold" />
           </div>
@@ -160,6 +175,52 @@ export function PedagogiePage({ onBack }) {
           <p className="text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Comprenez le fonctionnement de nos calculateurs et découvrez vos droits sous les règles de la Loi de Finances 2026.
           </p>
+        </div>
+
+        {/* ── Carte Cadeau Téléchargement Bible Fiscale ── */}
+        <div className="mb-10 p-6 sm:p-7 bg-gradient-to-r from-navy-lighter via-navy to-navy-lighter rounded-2xl border-2 border-gold/50 shadow-[0_10px_30px_rgba(221,168,83,0.15)] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden animate-fade-up">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="flex items-start gap-4">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gold/20 border border-gold/40 flex items-center justify-center flex-shrink-0 text-3xl shadow-md">
+              📘
+            </div>
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold mb-1.5">
+                <span>🐾</span> DOCUMENT EXCLUSIF PAR M. JEAN-LUC CHAT
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white">
+                La Bible (très) humoristique des taxes et impôts de France
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl leading-relaxed">
+                <em>Des Gaulois au prélèvement à la source : 2 000 ans de « passez à la caisse »</em>. Téléchargez gratuitement ce livre complet (10 pages PDF) écrit par Jean-Luc Chat, ancien inspecteur des impôts.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex-shrink-0 w-full md:w-auto">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={handleDownloadBible}
+              disabled={bibleLoading}
+              className="w-full md:w-auto font-black px-6 py-3.5 shadow-lg shadow-gold/25 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+            >
+              {bibleLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin text-navy" />
+                  <span>Génération en cours...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="w-5 h-5 text-navy" />
+                  <span>Télécharger la Bible PDF</span>
+                </>
+              )}
+            </Button>
+            <p className="text-[11px] text-center text-slate-400 mt-1.5">
+              Gratuit • 4 pages PDF illustrées
+            </p>
+          </div>
         </div>
 
         {/* Navigation par Onglets */}

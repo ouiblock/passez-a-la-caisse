@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Card } from './ui/Card';
+import { exportBibleFiscalePDF } from '../utils/exportBibleFiscalePDF';
 
 /**
  * Community metrics dashboard with real-time updates.
@@ -52,19 +53,17 @@ const SITE_URL = 'https://passezalacaisse.org';
 const SHARE_TEXT = `Avez-vous une idée du montant total que vous versez à l'État dans votre vie ?
 Entre l’impôt sur le revenu, la TVA, la CSG-CRDS, les cotisations, la taxe foncière, ou les droits de succession… la fiscalité irrigue notre quotidien.
 
-Pourtant, aucun organisme ne vous donne jamais le chiffre global. Ce simulateur le fait.
+Pourtant, aucun organisme ne vous donne jamais le chiffre global. Ce simulateur citoyen le fait !
+
+🎁 CADEAU CITOYEN : Téléchargez gratuitement le livre exclusif « La Bible (très) humoristique des taxes et impôts de France » par Jean-Luc Chat (ancien inspecteur DGFiP) !
+👉 Télécharger gratuitement ce livre & faire votre simulation : https://passezalacaisse.org
 
 Une démarche citoyenne et 100 % souveraine :
-✅ Rien à payer, rien à céder : accès gratuit, sans inscription.
-✅ Souveraineté et vie privée : zéro tracking, vos données restent chez vous.
+✅ Gratuit, sans inscription et sans tracking.
 ✅ Rigueur méthodologique : calculs documentés et vérifiables.
 
-Prenez un billet pour Bercy et passez à la caisse... mais cette fois, c'est vous qui faites l'addition.
-
-👉 Lancer la simulation gratuite : https://passezalacaisse.org 
-
-Passez à la caisse — Initiative citoyenne, indépendante et souveraine.`;
-const SHARE_TITLE = 'Passez à la caisse — Simulateur citoyen de fiscalité française';
+Prenez un billet pour Bercy et passez à la caisse... mais cette fois, c'est vous qui faites l'addition !`;
+const SHARE_TITLE = 'Passez à la caisse — Téléchargez gratuitement le livre & calculez vos impôts';
 
 // Custom inline SVG components to bypass library loading issues
 function UsersIcon({ className }) {
@@ -398,9 +397,34 @@ export function StatsCounter() {
             </button>
           </div>
 
-          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed italic">
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed italic mb-6">
             Partagez l'outil pour permettre à chacun de faire ses choix en toute connaissance de cause.
           </p>
+
+          {/* CTA Livre Gratuit dans la section partage */}
+          <div className="p-4 sm:p-5 bg-navy-light/80 border-2 border-gold/40 rounded-2xl max-w-lg mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl mb-6">
+            <div className="text-left flex items-start gap-3">
+              <span className="text-3xl flex-shrink-0">📘</span>
+              <div>
+                <span className="inline-flex items-center gap-1 text-[10px] uppercase font-bold text-gold bg-gold/15 px-2 py-0.5 rounded-full mb-1">
+                  Cadeau libre & citoyen
+                </span>
+                <p className="text-sm sm:text-base font-extrabold text-white">
+                  Télécharger gratuitement ce livre
+                </p>
+                <p className="text-xs text-slate-300 mt-0.5">
+                  « La Bible (très) humoristique des taxes et impôts de France » par Jean-Luc Chat (10 pages PDF)
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => exportBibleFiscalePDF()}
+              className="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-gold to-gold-light hover:scale-105 text-navy font-black rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-gold/20 flex-shrink-0 cursor-pointer"
+            >
+              <span>Télécharger le livre</span>
+              <span>↓</span>
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-wrap justify-center gap-3 mb-5">

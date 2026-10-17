@@ -1,11 +1,25 @@
 import { useState } from 'react';
-import { Calculator, TrendingUp, BookOpen, Shield, Lock, Eye, FileText, ArrowRight } from 'lucide-react';
+import { Calculator, TrendingUp, BookOpen, Shield, Lock, Eye, FileText, ArrowRight, Download, Loader2 } from 'lucide-react';
 import { Button } from './ui/Button';
 import { StatsCounter } from './StatsCounter';
 import { PassezAlaCaisseButton } from './EasterEgg';
+import { exportBibleFiscalePDF } from '../utils/exportBibleFiscalePDF';
 
 export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
+  const [bibleLoading, setBibleLoading] = useState(false);
+
+  const handleDownloadBible = async () => {
+    setBibleLoading(true);
+    try {
+      await exportBibleFiscalePDF();
+    } catch (err) {
+      console.error('Erreur téléchargement Bible:', err);
+      alert('Une erreur est survenue lors du téléchargement. Veuillez réessayer.');
+    } finally {
+      setBibleLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-navy text-white font-sans overflow-x-hidden">
       {/* Subtle background pattern */}
@@ -120,6 +134,54 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
                  </Button>
               </div>
             </div>
+        </section>
+
+        {/* ── Document Exclusif : Le Livre / La Bible de la Fiscalité ── */}
+        <section className="mb-20 animate-fade-up">
+          <div className="p-6 sm:p-8 bg-gradient-to-r from-navy-lighter via-navy to-navy-lighter border-2 border-gold/50 rounded-2xl shadow-[0_15px_40px_rgba(221,168,83,0.15)] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-72 h-72 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="flex items-start gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-gold/20 border border-gold/40 flex items-center justify-center flex-shrink-0 text-3xl shadow-lg">
+                📘
+              </div>
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold mb-1.5 uppercase tracking-wide">
+                  <span>🐾</span> LE LIVRE PAR JEAN-LUC CHAT
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-white">
+                  La Bible (très) humoristique des taxes et impôts de France
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl leading-relaxed">
+                  <em>Des Gaulois au prélèvement à la source : 2 000 ans de « passez à la caisse »</em>. Téléchargez gratuitement ce livre collector (10 pages) rédigé par notre ancien inspecteur des impôts.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex-shrink-0 w-full md:w-auto">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={handleDownloadBible}
+                disabled={bibleLoading}
+                className="w-full md:w-auto font-black px-6 py-3.5 shadow-lg shadow-gold/25 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base cursor-pointer"
+              >
+                {bibleLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin text-navy" />
+                    <span>Téléchargement...</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-5 h-5 text-navy" />
+                    <span>Télécharger le livre (PDF gratuit)</span>
+                  </>
+                )}
+              </Button>
+              <p className="text-[11px] text-center text-slate-400 mt-1.5">
+                📖 Guide PDF 4 pages illustrées • Sans inscription
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* ── Pédagogie : La jungle fiscale ── */}
