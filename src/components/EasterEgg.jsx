@@ -67,56 +67,77 @@ function playCatMeowSound() {
   }
 }
 
+import { createPortal } from 'react-dom';
+
 /**
  * Composant Modal Easter Egg
+ * Utilise un Portal React pour se détacher du flux DOM et être toujours au premier plan absolu (z-[9999]).
+ * Se ferme automatiquement après 4 secondes ou au clic sur le fond/bouton.
  */
 export function EasterEggModal({ isOpen, onClose, title, message, badge, quote, mascotText }) {
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen) return;
 
-  return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-navy-dark/85 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-md bg-gradient-to-b from-navy-light via-navy to-navy-dark border-2 border-gold rounded-3xl p-6 sm:p-8 text-center shadow-[0_0_50px_rgba(234,179,8,0.35)] animate-scale-up">
+    // Fermeture automatique après 4 secondes
+    const timer = setTimeout(() => {
+      onClose();
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [isOpen, onClose]);
+
+  if (!isOpen || typeof document === 'undefined') return null;
+
+  return createPortal(
+    <div 
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in"
+      onClick={onClose}
+    >
+      <div 
+        className="relative w-full max-w-md bg-gradient-to-b from-navy-light via-navy to-navy-dark border-2 border-gold rounded-3xl p-6 sm:p-8 text-center shadow-[0_0_60px_rgba(234,179,8,0.5)] animate-scale-up"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Confettis d'or décoratifs */}
         <div className="absolute -top-3 -left-3 text-2xl animate-bounce">🪙</div>
         <div className="absolute -top-3 -right-3 text-2xl animate-bounce delay-100">🎉</div>
         <div className="absolute -bottom-3 -left-3 text-2xl animate-bounce delay-200">🐾</div>
         <div className="absolute -bottom-3 -right-3 text-2xl animate-bounce delay-300">🧾</div>
 
-        {/* Bouton fermeture */}
+        {/* Bouton fermeture facile */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-white rounded-full bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+          className="absolute top-3 right-3 p-2 text-slate-400 hover:text-white rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
           aria-label="Fermer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-black uppercase tracking-wider mb-4">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-xs font-black uppercase tracking-wider mb-3">
           <Trophy className="w-4 h-4 text-gold animate-pulse" />
           {badge || "Succès Débloqué !"}
         </div>
 
         {/* Titre */}
-        <h3 className="text-2xl font-black text-white mb-2 leading-tight">
+        <h3 className="text-xl sm:text-2xl font-black text-white mb-2 leading-tight">
           {title}
         </h3>
 
         {/* Devise humoristique */}
-        <div className="py-2 px-4 my-3 bg-gold/15 border border-gold/30 rounded-xl">
+        <div className="py-2 px-4 my-2.5 bg-gold/15 border border-gold/30 rounded-xl">
           <p className="text-base sm:text-lg font-black text-gold tracking-wide">
             📢 « PASSEZ À LA CAISSE ! »
           </p>
         </div>
 
         {/* Message */}
-        <p className="text-sm text-slate-200 leading-relaxed mb-4">
+        <p className="text-xs sm:text-sm text-slate-200 leading-relaxed mb-3">
           {message}
         </p>
 
         {/* Bulle Jean-Luc Chat */}
         {mascotText && (
-          <div className="flex items-start gap-3 p-3 bg-navy-light/80 border border-slate-700 rounded-xl text-left mb-5">
+          <div className="flex items-start gap-2.5 p-2.5 bg-navy-light/80 border border-slate-700 rounded-xl text-left mb-4">
             <span className="text-2xl flex-shrink-0">😼</span>
             <div className="text-xs text-slate-300 italic">
               <strong>M. Jean-Luc Chat :</strong> "{mascotText}"
@@ -125,19 +146,20 @@ export function EasterEggModal({ isOpen, onClose, title, message, badge, quote, 
         )}
 
         {quote && (
-          <p className="text-xs text-slate-400 italic mb-6">
+          <p className="text-[11px] text-slate-400 italic mb-4">
             « {quote} »
           </p>
         )}
 
         <button
           onClick={onClose}
-          className="w-full py-3 px-6 bg-gradient-to-r from-gold via-gold-light to-gold text-navy font-black rounded-xl hover:shadow-[0_0_20px_rgba(234,179,8,0.4)] transition-all cursor-pointer active:scale-95"
+          className="w-full py-2.5 px-5 bg-gradient-to-r from-gold via-gold-light to-gold text-navy font-black text-sm rounded-xl hover:shadow-[0_0_20px_rgba(234,179,8,0.4)] transition-all cursor-pointer active:scale-95"
         >
           Bien reçu, je passe à la caisse ! 🧾
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
