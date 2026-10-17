@@ -99,6 +99,10 @@ function App() {
     donations: {}
   });
 
+  // Easter Egg global (clavier Konami Code ou frappe mot 'bercy' / 'caisse')
+  const [globalEasterEgg, setGlobalEasterEgg] = useState(null);
+  useKonamiEasterEgg(setGlobalEasterEgg);
+
   // Enregistrement anonyme de la visite réelle
   useEffect(() => {
     enregistrerVisiteReelle();
@@ -278,12 +282,6 @@ function App() {
   } else {
     content = <LandingPageNew onSelectCalculator={handleSelectCalculator} onOpenCgu={() => setIsCguOpen(true)} />;
   }
-
-  // Easter Egg global (clavier Konami Code ou frappe mot 'bercy' / 'caisse')
-  const [globalEasterEgg, setGlobalEasterEgg] = useState(null);
-  useKonamiEasterEgg((data) => {
-    setGlobalEasterEgg(data);
-  });
 
   return (
     <div className="flex flex-col relative min-h-screen bg-navy">
