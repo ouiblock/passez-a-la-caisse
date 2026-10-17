@@ -128,6 +128,10 @@ export function PedagogiePage({ onBack }) {
       a: "Nous appliquons une politique stricte de 'cookies minimum vital'. Le site ne dépose aucun cookie publicitaire, tracker ou outil analytique tiers. Nous utilisons uniquement la mémoire locale de votre navigateur (localStorage) pour des fonctions techniques indispensables : mémoriser votre acceptation des conditions de l'outil et conserver le calculateur choisi d'une visite à l'autre."
     },
     {
+      q: "Le projet a-t-il une orientation ou un parti pris politique ?",
+      a: "Non, absolument aucun. Passez à la caisse est une démarche citoyenne strictement apolitique, indépendante et bénévole. Nous ne portons aucune revendication idéologique ni critique de l'impôt en tant que tel. Notre mission est exclusivement pédagogique : donner à chaque contribuable les moyens de comprendre de façon factuelle et mathématique le montant cumulé de ses contributions obligatoires."
+    },
+    {
       q: "Comment contacter l'équipe du projet ?",
       a: "Vous pouvez nous adresser vos questions, suggestions ou signalements par courriel à l'adresse : contact@passezalacaisse.org. Nous répondons avec plaisir à toutes les contributions citoyennes."
     }

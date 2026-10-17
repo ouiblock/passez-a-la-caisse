@@ -229,24 +229,24 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
 
         {/* ── Projet, Méthodologie & PWA ── */}
         <section className="mb-20">
-          <h3 className="text-2xl font-bold text-center text-white mb-8">Un outil indépendant et sécurisé</h3>
+          <h3 className="text-2xl font-bold text-center text-white mb-8">Un outil citoyen, apolitique et souverain</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-2xl bg-navy/40 border border-white/10">
-              <h4 className="font-bold text-white text-lg mb-3 flex items-center gap-2">👥 Collectif Citoyen</h4>
+            <div className="p-6 rounded-2xl bg-navy/40 border border-white/10 hover:border-gold/30 transition-colors">
+              <h4 className="font-bold text-white text-lg mb-3 flex items-center gap-2">🏛️ Démarche Apolitique & Citoyenne</h4>
               <p className="text-sm text-slate-300 leading-relaxed">
-                Développé et maintenu bénévolement. Sans étiquette politique ni vocation commerciale, ce simulateur vise uniquement la transparence fiscale.
+                Initiative citoyenne 100 % bénévole, sans attache partisane ni subvention. L'objectif est purement civique : donner à chaque citoyen une vision claire et dépassionnée de sa contribution globale.
               </p>
             </div>
-            <div className="p-6 rounded-2xl bg-navy/40 border border-white/10">
-              <h4 className="font-bold text-white text-lg mb-3 flex items-center gap-2">📚 Méthodologie</h4>
+            <div className="p-6 rounded-2xl bg-navy/40 border border-white/10 hover:border-gold/30 transition-colors">
+              <h4 className="font-bold text-white text-lg mb-3 flex items-center gap-2">📚 Vocation Purement Pédagogique</h4>
               <p className="text-sm text-slate-300 leading-relaxed">
-                Les calculs intègrent les taux réels de la Loi de Finances 2026. Ils fournissent des estimations pédagogiques (ceci n'est pas un conseil fiscal personnalisé).
+                Ni conseil fiscal ni tribune : une simulation basée sur les barèmes officiels 2026 pour comprendre concrètement les flux entre salaires, consommation, patrimoine et budget public.
               </p>
             </div>
-            <div className="p-6 rounded-2xl bg-navy/40 border border-white/10">
-              <h4 className="font-bold text-white text-lg mb-3 flex items-center gap-2">🔒 Vie Privée</h4>
+            <div className="p-6 rounded-2xl bg-navy/40 border border-white/10 hover:border-gold/30 transition-colors">
+              <h4 className="font-bold text-white text-lg mb-3 flex items-center gap-2">🔒 Souveraineté & Zéro Tracking</h4>
               <p className="text-sm text-slate-300 leading-relaxed">
-                Vos saisies restent locales (dans votre navigateur). Aucun cookie publicitaire, aucun serveur centralisé. Zéro tracking garanti.
+                Vos données financières ne quittent jamais votre machine. Tout est calculé dans votre navigateur, sans compte, sans cookies de traçage et sans revente de données.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-navy/40 border border-white/10">
