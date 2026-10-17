@@ -125,7 +125,7 @@ export function ChatJeanLuc({ onGoToPedagogie }) {
       category: 'Contact',
       question: "Comment vous contacter ou signaler une remarque ?",
       icon: "✉️",
-      answer: "Une question spécifique, une suggestion d'amélioration ou un mot doux pour l'équipe ? Vous pouvez nous écrire directement par courriel à unbilletpourbercy@proton.me — nous lisons et répondons à chaque message citoyen !"
+      answer: "Une question spécifique, une suggestion d'amélioration ou un mot doux pour l'équipe ? Vous pouvez nous écrire directement par courriel à contact@passezalacaisse.org — nous lisons et répondons à chaque message citoyen !"
     }
   ];
 
@@ -278,10 +278,10 @@ export function ChatJeanLuc({ onGoToPedagogie }) {
                     {selectedFaq.id === 'contact' && (
                       <div className="mb-3">
                         <a
-                          href="mailto:unbilletpourbercy@proton.me"
+                          href="mailto:contact@passezalacaisse.org"
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold text-navy font-bold rounded-lg text-xs hover:bg-gold-light transition-all shadow-md"
                         >
-                          ✉️ Écrire à unbilletpourbercy@proton.me
+                          ✉️ Écrire à contact@passezalacaisse.org
                         </a>
                       </div>
                     )}

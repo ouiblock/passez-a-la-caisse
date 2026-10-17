@@ -286,8 +286,8 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
             <p className="text-sm text-slate-400 mb-4">
               Une remarque, une idée d'amélioration ou une proposition de collaboration ?
             </p>
-            <a href="mailto:unbilletpourbercy@proton.me" className="text-gold hover:text-gold-light font-medium underline transition-colors">
-              unbilletpourbercy@proton.me
+            <a href="mailto:contact@passezalacaisse.org" className="text-gold hover:text-gold-light font-medium underline transition-colors">
+              contact@passezalacaisse.org
             </a>
           </div>
         </section>

@@ -73,7 +73,7 @@ export function SuccessionCalculator({ onBack }) {
         </button>
 
         <a
-          href="mailto:unbilletpourbercy@proton.me?subject=Signalement de bug ou erreur"
+          href="mailto:contact@passezalacaisse.org?subject=Signalement de bug ou erreur"
           className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-red-900/60 hover:bg-red-800/80 text-red-100 rounded-lg transition-colors border border-red-500/30 shadow-lg text-sm"
         >
           <span className="text-base">🐞</span>

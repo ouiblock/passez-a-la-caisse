@@ -62,7 +62,7 @@ function footer(doc, date) {
   doc.setLineWidth(0.3);
   doc.line(10, y - 3, 200, y - 3);
   setFont(doc, 7, GRAY);
-  doc.text(`Document généré le ${date} · Outil pédagogique gratuit · unbilletpourbercy.proton.me`, 10, y);
+  doc.text(`Document généré le ${date} · Outil pédagogique gratuit · passezalacaisse.org`, 10, y);
   doc.text('Collectif anonyme de citoyens — aucun conseil fiscal', 200, y, { align: 'right' });
 }
 
@@ -187,7 +187,7 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
   // Pied de page de garde
   setFont(doc, 7.5, GRAY);
   doc.setTextColor(100, 100, 100);
-  doc.text('UN BILLET POUR BERCY — Outil pédagogique gratuit & anonyme · unbilletpourbercy.proton.me', 105, 270, { align: 'center' });
+  doc.text('PASSEZ À LA CAISSE — Outil pédagogique gratuit & anonyme · passezalacaisse.org', 105, 270, { align: 'center' });
   doc.text('Collectif anonyme de citoyens · Document à but pédagogique uniquement', 105, 276, { align: 'center' });
 
   footer(doc, date);
@@ -552,7 +552,7 @@ export async function exportLifetimePDF(profil, resultats, successionEstimation)
     setFont(doc, 8.5, NAVY, 'bold');
     doc.text('Contact & collaboration', 14, y + 5);
     setFont(doc, 8, [30, 60, 120]);
-    doc.text('Pour toute question, signalement d\'erreur ou demande de collaboration : unbilletpourbercy@proton.me', 14, y + 11);
+    doc.text('Pour toute question, signalement d\'erreur ou demande de collaboration : contact@passezalacaisse.org', 14, y + 11);
   }
 
   // ─── Sauvegarde ────────────────────────────────────────────────────────────

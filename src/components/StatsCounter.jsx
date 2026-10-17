@@ -13,7 +13,9 @@ const AVG_FISCAL_WEIGHT = 147250;
 const AVG_SAVINGS_WEIGHT = 14820;
 const REFRESH_INTERVAL = 3000;
 
-function resolveMetrics() {
+import { getRealServerStats } from '../utils/statsTracker';
+
+function resolveMetrics(realCount = 0) {
   const elapsed = Math.max(0, Date.now() - DEPLOYMENT_EPOCH);
   const completedCycles = Math.floor(elapsed / 86400000);
 
@@ -26,7 +28,8 @@ function resolveMetrics() {
   const cycleProgress = (elapsed % 86400000) / 86400000;
   const partial = Math.floor(currentCycleRate * cycleProgress);
 
-  const total = METRIC_SEED + accumulated + partial;
+  // Total = Base de gonflage dynamique + vraies visites réelles enregistrées
+  const total = METRIC_SEED + accumulated + partial + (Number(realCount) || 0);
 
   return {
     simulations: total,
@@ -45,7 +48,7 @@ function formatDateFR() {
 }
 
 // Share configuration
-const SITE_URL = 'https://unbilletpourbercy.netlify.app';
+const SITE_URL = 'https://passezalacaisse.org';
 const SHARE_TEXT = `Avez-vous une idée du montant total que vous versez à l'État dans votre vie ?
 Entre l’impôt sur le revenu, la TVA, la CSG-CRDS, les cotisations, la taxe foncière, ou les droits de succession… la fiscalité irrigue notre quotidien.
 
@@ -58,7 +61,7 @@ Une démarche citoyenne et 100 % souveraine :
 
 Prenez un billet pour Bercy et passez à la caisse... mais cette fois, c'est vous qui faites l'addition.
 
-👉 Lancer la simulation gratuite : https://unbilletpourbercy.netlify.app 
+👉 Lancer la simulation gratuite : https://passezalacaisse.org 
 
 Passez à la caisse — Initiative citoyenne, indépendante et souveraine.`;
 const SHARE_TITLE = 'Passez à la caisse — Simulateur citoyen de fiscalité française';
@@ -176,9 +179,16 @@ export function StatsCounter() {
   const [copied, setCopied] = useState(false);
   const [currentDate, setCurrentDate] = useState(formatDateFR());
   const initialized = useRef(false);
+  const realVisitsRef = useRef(0);
 
   useEffect(() => {
-    const initial = resolveMetrics();
+    // 1. Charger les vraies visites réelles depuis le serveur
+    getRealServerStats().then(({ realVisits }) => {
+      realVisitsRef.current = realVisits;
+      setMetrics(resolveMetrics(realVisits));
+    });
+
+    const initial = resolveMetrics(realVisitsRef.current);
     setMetrics(initial);
 
     const duration = 1500;
@@ -202,8 +212,9 @@ export function StatsCounter() {
       }
     }, interval);
 
+    // Ticker combinant simulation aléatoire/temporelle et vraies visites
     const tickerId = setInterval(() => {
-      setMetrics(resolveMetrics());
+      setMetrics(resolveMetrics(realVisitsRef.current));
       setCurrentDate(formatDateFR());
     }, REFRESH_INTERVAL);
 

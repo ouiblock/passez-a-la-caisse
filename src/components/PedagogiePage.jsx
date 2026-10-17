@@ -129,7 +129,7 @@ export function PedagogiePage({ onBack }) {
     },
     {
       q: "Comment contacter l'équipe du projet ?",
-      a: "Vous pouvez nous adresser vos questions, suggestions ou signalements par courriel à l'adresse : unbilletpourbercy@proton.me. Nous répondons avec plaisir à toutes les contributions citoyennes."
+      a: "Vous pouvez nous adresser vos questions, suggestions ou signalements par courriel à l'adresse : contact@passezalacaisse.org. Nous répondons avec plaisir à toutes les contributions citoyennes."
     }
   ];
 

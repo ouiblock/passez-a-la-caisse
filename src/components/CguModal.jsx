@@ -99,7 +99,7 @@ export function CguModal({ isOpen, onClose }) {
           <div>
             <h3 className="font-bold text-white mb-2">7. Contact & Collaboration</h3>
             <p>
-              Pour toute demande de contact, signalement de bug, proposition d'amélioration ou de collaboration, vous pouvez joindre l'équipe citoyenne à l'adresse suivante : <a href="mailto:unbilletpourbercy@proton.me" className="text-gold underline hover:text-gold-light">unbilletpourbercy@proton.me</a>
+              Pour toute demande de contact, signalement de bug, proposition d'amélioration ou de collaboration, vous pouvez joindre l'équipe citoyenne à l'adresse suivante : <a href="mailto:contact@passezalacaisse.org" className="text-gold underline hover:text-gold-light">contact@passezalacaisse.org</a>
             </p>
           </div>
 

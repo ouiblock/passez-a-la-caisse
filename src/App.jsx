@@ -10,6 +10,7 @@ import { Step3Amounts } from './components/Step3Amounts';
 import { Step4Results } from './components/Step4Results';
 import { CguModal } from './components/CguModal';
 import { ChatJeanLuc } from './components/ChatJeanLuc';
+import { enregistrerVisiteReelle } from './utils/statsTracker';
 
 function CookieBanner() {
   const [visible, setVisible] = useState(() => {
@@ -96,6 +97,11 @@ function App() {
     avApres70: 0,
     donations: {}
   });
+
+  // Enregistrement anonyme de la visite réelle
+  useEffect(() => {
+    enregistrerVisiteReelle();
+  }, []);
 
   // Scroll to top on page or step change
   useEffect(() => {
