@@ -30,8 +30,27 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
         {/* ── Hero Section ── */}
         <header className="flex flex-col items-center text-center mb-16 animate-fade-up">
 
-          {/* Badges du haut : Mascotte Jean-Luc Chat + Devise Interactive */}
+          {/* Badges du haut : Le duo d'inspecteurs Clovis & Jean-Luc Chat + Devise Interactive */}
           <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+            {/* Clovis - Inspecteur DGFIP en exercice */}
+            <div className="inline-flex items-center gap-3 p-1.5 pr-4 bg-navy-light/70 border border-gold/40 rounded-full backdrop-blur-sm shadow-lg hover:border-gold transition-all">
+              <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold flex-shrink-0">
+                <img 
+                  src="/images/clovis-inspecteur.jpg" 
+                  alt="Clovis - Inspecteur DGFIP" 
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+              <div className="text-left text-xs">
+                <span className="text-gold font-bold">Clovis</span>
+                <span className="text-slate-400 hidden sm:inline"> • Inspecteur DGFIP chevronné</span>
+              </div>
+              <span className="ml-1 text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 font-semibold uppercase tracking-wider">
+                En poste
+              </span>
+            </div>
+
+            {/* M. Jean-Luc Chat - Auteur & Inspecteur Honoraire */}
             <div className="inline-flex items-center gap-3 p-1.5 pr-4 bg-navy-light/70 border border-gold/30 rounded-full backdrop-blur-sm shadow-lg hover:border-gold/60 transition-all">
               <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold flex-shrink-0">
                 <img 
@@ -41,11 +60,11 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
                 />
               </div>
               <div className="text-left text-xs">
-                <span className="text-gold font-bold">M. Jean-Luc Chat</span>
-                <span className="text-slate-400 hidden sm:inline"> • Inspecteur DGFIP retraité</span>
+                <span className="text-gold font-bold">Jean-Luc Chat</span>
+                <span className="text-slate-400 hidden sm:inline"> • Auteur de La Bible des impôts</span>
               </div>
               <span className="ml-1 text-[10px] px-2 py-0.5 rounded-full bg-gold/15 text-gold font-semibold uppercase tracking-wider">
-                Enquête citoyenne
+                Livre 10p
               </span>
             </div>
 
@@ -61,7 +80,7 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-gold/15 hover:bg-gold/25 border border-gold/40 hover:border-gold rounded-full text-gold text-xs font-bold transition-all shadow-md hover:scale-105 active:scale-95 cursor-pointer"
             >
               <BookOpen className="w-3.5 h-3.5 text-gold" />
-              <span>📘 Livre gratuit (10 pages)</span>
+              <span>📘 Livre offert</span>
               <Download className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -177,19 +196,29 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
         <section className="mb-20 animate-fade-up">
           <div className="p-6 sm:p-8 bg-gradient-to-r from-navy-lighter via-navy to-navy-lighter border-2 border-gold/50 rounded-2xl shadow-[0_15px_40px_rgba(221,168,83,0.15)] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-72 h-72 bg-gold/10 rounded-full blur-3xl pointer-events-none" />
-            <div className="flex items-start gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gold/20 border border-gold/40 flex items-center justify-center flex-shrink-0 text-3xl shadow-lg">
-                📘
+            <div className="flex flex-col sm:flex-row items-center gap-5">
+              <div className="relative flex-shrink-0">
+                <div className="w-20 h-28 sm:w-24 sm:h-32 rounded-xl overflow-hidden border-2 border-gold shadow-xl bg-navy-dark">
+                  <img
+                    src="/images/clovis-inspecteur.jpg"
+                    alt="Clovis - Inspecteur DGFIP à son bureau de Bercy"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <span className="absolute -bottom-2 -right-2 px-2 py-0.5 rounded-full bg-emerald-500 text-navy font-black text-[9px] uppercase tracking-wider shadow">
+                  Bercy
+                </span>
               </div>
-              <div>
+              <div className="text-center sm:text-left">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold mb-1.5 uppercase tracking-wide">
-                  <span>🐾</span> LE LIVRE PAR JEAN-LUC CHAT
+                  <span>🐾</span> RECOMMANDÉ PAR L'INSPECTEUR CLOVIS
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white">
                   La Bible (très) humoristique des taxes et impôts de France
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl leading-relaxed">
-                  <em>Des Gaulois au prélèvement à la source : 2 000 ans de « passez à la caisse »</em>. Téléchargez gratuitement ce livre collector (10 pages) rédigé par notre ancien inspecteur des impôts.
+                  <em>« Des Gaulois au prélèvement à la source : 2 000 ans de « passez à la caisse »</em>.
+                  Rédigé par mon illustre mentor <strong>Jean-Luc CHAT</strong>. Téléchargez gratuitement ce livre collector (10 pages) avant qu'on ne taxe les octets ! »
                 </p>
               </div>
             </div>

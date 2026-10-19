@@ -11,6 +11,7 @@ import { SuccessionEstimationCard } from './SuccessionEstimationCard';
 import { exportLifetimePDF } from '../../utils/exportLifetimePDF';
 import { exportBibleFiscalePDF } from '../../utils/exportBibleFiscalePDF';
 import { PassezAlaCaisseButton } from '../EasterEgg';
+import { ClovisAdvice } from './ClovisAdvice';
 
 const CATEGORIES = [
   { key: 'tvaConso', label: 'TVA sur consommation', color: 'bg-red-500', description: 'TVA payée sur vos achats quotidiens' },
@@ -323,6 +324,9 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
         </div>
       </div>
 
+      {/* ── Recommandation officielle de Clovis : Le Livre de Jean-Luc Chat ── */}
+      <ClovisAdvice context="results" />
+
       {/* Répartition par catégorie */}
       <Card id="detail-poste-par-poste" className="p-5 sm:p-8 scroll-mt-6">
         <div className="flex items-center justify-between mb-6">
@@ -529,17 +533,17 @@ export function Step4LifetimeResults({ profil, onBack, onReset, onGoToPedagogie 
         <div className="relative flex flex-col md:flex-row items-center gap-6 justify-between">
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 rounded-2xl bg-gold/20 border border-gold/40 flex items-center justify-center flex-shrink-0 text-3xl shadow-lg">
-              📘
+              🐾
             </div>
             <div>
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold mb-1.5 uppercase tracking-wide">
-                <span>🐾</span> LE LIVRE PAR JEAN-LUC CHAT
+                <span>🏛️</span> DUO BERCY : CLOVIS & JEAN-LUC CHAT
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 La Bible (très) humoristique des taxes et impôts de France
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl leading-relaxed">
-                <em>Des Gaulois au prélèvement à la source : 2 000 ans de « passez à la caisse »</em>. Téléchargez gratuitement ce livre complet (10 pages) rédigé par notre inspecteur des impôts retraité.
+                <em>Des Gaulois au prélèvement à la source : 2 000 ans de « passez à la caisse »</em>. Recommandé par l'inspecteur Clovis, rédigé par Jean-Luc Chat. Téléchargez gratuitement ce bréviaire collector de 10 pages.
               </p>
             </div>
           </div>

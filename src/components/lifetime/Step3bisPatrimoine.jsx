@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TrendingUp, Home as HomeIcon, CreditCard, AlertCircle } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { ClovisAdvice } from './ClovisAdvice';
 
 export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) {
   // Placements par type (avec fiscalité spécifique)
@@ -436,8 +437,11 @@ export function Step3bisPatrimoine({ initialData, onContinue, onBack, onSkip }) 
           </ul>
         </div>
 
+        {/* Note d'inspection de Clovis */}
+        <ClovisAdvice context="step3bis" />
+
         {/* Boutons */}
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-6">
           <Button
             type="button"
             variant="secondary"

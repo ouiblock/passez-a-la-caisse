@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TrendingUp, Calendar, Receipt } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { ClovisAdvice } from './ClovisAdvice';
 import { MOYENNES_INSEE } from '../../utils/lifetime/assumptions';
 import { calculerImpotAnnuel, calculerParts } from '../../utils/lifetime/adapters/impotRevenu';
 
@@ -260,8 +261,11 @@ export function Step2Income({ initialData, onContinue, onBack }) {
           </div>
         </div>
 
+        {/* Note d'inspection de Clovis */}
+        <ClovisAdvice context="step2" />
+
         {/* Boutons */}
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-6">
           <Button
             type="button"
             variant="secondary"

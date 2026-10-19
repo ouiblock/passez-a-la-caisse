@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Home as HomeIcon, Car, Zap, ShoppingCart } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { ClovisAdvice } from './ClovisAdvice';
 
 const TYPES_VEHICULE = [
   { value: 'essence', label: 'Essence', icon: '⛽' },
@@ -347,8 +348,11 @@ export function Step3Consumption({ initialData, onContinue, onBack }) {
           </p>
         </div>
 
+        {/* Note d'inspection de Clovis */}
+        <ClovisAdvice context="step3" />
+
         {/* Boutons */}
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-6">
           <Button
             type="button"
             variant="secondary"

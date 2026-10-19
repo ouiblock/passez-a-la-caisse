@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { User, Users, Briefcase } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { ClovisAdvice } from './ClovisAdvice';
 
 const STATUTS = [
   { value: 'salarie', label: 'Salarié', icon: '👔' },
@@ -179,8 +180,11 @@ export function Step1Profile({ initialData, onContinue }) {
           </p>
         </div>
 
+        {/* Note d'inspection de Clovis */}
+        <ClovisAdvice context="step1" />
+
         {/* Bouton continuer */}
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-6">
           <Button
             type="submit"
             variant="primary"
