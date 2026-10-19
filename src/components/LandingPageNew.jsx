@@ -30,8 +30,8 @@ export function LandingPageNew({ onSelectCalculator, onOpenCgu }) {
         {/* ── Hero Section ── */}
         <header className="flex flex-col items-center text-center mb-16 animate-fade-up">
 
-          {/* Badges du haut : Le duo d'inspecteurs Clovis & Jean-Luc Chat + Devise Interactive */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+          {/* Badges du haut : uniquement sur desktop large, masqués sur mobile et tablette */}
+          <div className="hidden lg:flex flex-wrap items-center justify-center gap-3 mb-6">
             {/* Clovis - Inspecteur DGFIP en exercice */}
             <div className="inline-flex items-center gap-3 p-1.5 pr-4 bg-navy-light/70 border border-gold/40 rounded-full backdrop-blur-sm shadow-lg hover:border-gold transition-all">
               <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-gold flex-shrink-0">
